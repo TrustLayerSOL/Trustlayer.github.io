@@ -1,7 +1,7 @@
 import React from "react"; import { ShieldCheck, Gift, Eye, Lock, ArrowRight, Clock, Wallet, BarChart3 } from "lucide-react";
 
-export default function TrustLayerLandingPage() { return ( <main className="min-h-screen bg-[#050507] text-white overflow-hidden"> <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(126,69,255,0.28),transparent_35%),radial-gradient(circle_at_top_right,rgba(42,255,128,0.18),transparent_30%),radial-gradient(circle_at_bottom,rgba(80,150,255,0.13),transparent_35%)]" /> <div className="relative mx-auto max-w-7xl px-5 py-6 sm:px-8"> <nav className="flex items-center justify-between"> <div className="flex items-center gap-3"> <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-purple-400/40 bg-white/5 shadow-lg shadow-purple-500/20"> <ShieldCheck className="h-6 w-6 text-emerald-300" /> </div> <div> <p className="text-xl font-black tracking-tight">TrustLayer</p> <p className="text-xs uppercase tracking-[0.24em] text-purple-200/70">Built on Solana</p> </div> </div> <a
-href="https://x.com/JordanTradeSOL"
+export default function TrustLayerLandingPage() { return ( <main className="min-h-screen bg-[#050507] text-white overflow-hidden"> <div className="absolute inset-0 bg-[radial-gradient(circle_at_top[...]
+href="https://x.com/jordanposs"
 target="_blank"
 rel="noreferrer"
 className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white/90 hover:bg-white/10"
@@ -24,7 +24,7 @@ className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <a
-            href="https://x.com/JordanTradeSOL"
+            href="https://x.com/jordanposs"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 font-bold text-black hover:bg-emerald-200"
@@ -89,7 +89,7 @@ className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font
           Launching first with selected Solana projects and KOL-backed communities. The first proof-of-concept token will demonstrate vault tracking, holder scoring, and public payouts.
         </p>
         <a
-          href="https://x.com/JordanTradeSOL"
+          href="https://x.com/jordanposs"
           target="_blank"
           rel="noreferrer"
           className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-emerald-300 px-7 py-3 font-black text-black hover:bg-white"
