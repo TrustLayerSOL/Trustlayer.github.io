@@ -1,27 +1,29 @@
 export default function App() {
-  return (
-    <main className="min-h-screen bg-[#F8FAF3] text-slate-950">
-      {/* NAV */}
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-400 text-xl font-black text-slate-950 shadow-sm">
-            T
-          </div>
-          <div>
-            <p className="text-lg font-black tracking-tight">TrustLayerSOL</p>
-            <p className="text-xs font-medium text-slate-500">Solana trust intelligence</p>
-          </div>
-        </div>
+return (
+<main className="min-h-screen bg-[#F8FAF3] text-slate-950">
+  <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
+    <div className="flex items-center gap-3">
+      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-400 text-xl font-black text-slate-950 shadow-sm">
+        TL
+      </div>
 
-        <a
-          href="https://x.com/jordanposs"
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-800"
-        >
-          @jordanposs
-        </a>
-      </nav>
+      <div>
+        <p className="text-lg font-black tracking-tight">TrustLayerSOL</p>
+        <p className="text-xs font-medium text-slate-500">
+          Solana trust intelligence
+        </p>
+      </div>
+    </div>
+
+    <a
+      href="https://x.com/jordanposs"
+      target="_blank"
+      rel="noreferrer"
+      className="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-800"
+    >
+      @jordanposs
+    </a>
+  </nav>
 
       {/* HERO */}
       <section className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-2 lg:py-24">
