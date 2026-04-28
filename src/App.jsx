@@ -94,7 +94,7 @@ className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font
           rel="noreferrer"
           className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-emerald-300 px-7 py-3 font-black text-black hover:bg-white"
         >
-          Contact @JordanTradeSOL <ArrowRight className="h-4 w-4" />
+          Contact @jordanposs <ArrowRight className="h-4 w-4" />
         </a>
       </div>
     </section>
