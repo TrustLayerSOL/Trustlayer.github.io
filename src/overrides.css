@@ -44,6 +44,20 @@
   font-size: 12px;
 }
 
+.proof-link {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 4px;
+  color: var(--blue2);
+  font: 12px "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.proof-link:hover {
+  color: var(--blue);
+}
+
 @media (min-width: 721px) {
   .dashboard-grid {
     grid-template-columns: repeat(4, 1fr);
