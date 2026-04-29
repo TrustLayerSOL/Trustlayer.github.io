@@ -3,57 +3,464 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="TrustLayer is a contract-backed reward and protection layer for Solana meme coins." />
+    <meta
+      name="description"
+      content="TrustLayer is a contract-backed reward and protection layer for Solana meme coins."
+    />
     <meta property="og:title" content="TrustLayer" />
-    <meta property="og:description" content="Fees route into transparent vaults for holder rewards, protection reserves, and public proof." />
+    <meta
+      property="og:description"
+      content="Fees route into transparent vaults for holder rewards, protection reserves, and public proof."
+    />
     <title>TrustLayer | Transparent Rewards for Meme Coins</title>
     <link rel="stylesheet" href="./src/styles.css" />
+    <link rel="stylesheet" href="./src/overrides.css" />
   </head>
   <body>
     <div class="ticker" aria-label="TrustLayer status ticker">
-      <span>TRUSTLAYER V0.1</span><span>MAINNET DESIGN</span><span>CONTRACT-BACKED VAULTS</span><span>HOLDER REWARDS</span><span>PROTECTION RESERVE</span><span>PUBLIC PROOF</span>
+      <span>TRUSTLAYER V0.1</span>
+      <span>MAINNET DESIGN</span>
+      <span>CONTRACT-BACKED VAULTS</span>
+      <span>HOLDER REWARDS</span>
+      <span>PROTECTION RESERVE</span>
+      <span>PUBLIC PROOF</span>
     </div>
+
     <header class="topbar">
-      <a class="brand" href="#top" aria-label="TrustLayer home"><span class="brand-mark">TL</span><span><strong>TrustLayer</strong><small>reward layer</small></span></a>
-      <nav class="nav" aria-label="Main navigation"><a href="#dashboard">Dashboard</a><a href="#fleet">Fleet</a><a href="#verification">Trust tiers</a><a href="#mechanics">Mechanics</a><a href="#onboard">Onboard</a></nav>
-      <a class="contact-button" href="https://x.com/jordanposs" target="_blank" rel="noreferrer">DM @jordanposs</a>
+      <a class="brand" href="#top" aria-label="TrustLayer home">
+        <span class="brand-mark">TL</span>
+        <span>
+          <strong>TrustLayer</strong>
+          <small>reward layer</small>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#fleet">Fleet</a>
+        <a href="#verification">Trust tiers</a>
+        <a href="#mechanics">Mechanics</a>
+        <a href="#onboard">Onboard</a>
+      </nav>
+      <a class="contact-button" href="https://x.com/jordanposs" target="_blank" rel="noreferrer">
+        DM @jordanposs
+      </a>
     </header>
+
     <main id="top">
       <section class="hero">
         <div class="hero-copy">
-          <div class="eyebrow"><span class="live-dot"></span>Pre-launchpad architecture</div>
+          <div class="eyebrow">
+            <span class="live-dot"></span>
+            Pre-launchpad architecture
+          </div>
           <h1>Contract-backed trust for meme coin launches.</h1>
-          <p>TrustLayer routes project fees into transparent vaults for holder rewards, protection reserves, and public payout proof. No hidden promises. No black-box distribution.</p>
-          <div class="hero-actions"><a class="primary-action" href="#dashboard">View product demo</a><a class="secondary-action" href="#onboard">Board a project</a></div>
-          <div class="proof-strip" aria-label="TrustLayer product pillars"><span>Fees -> vault</span><span>Balance x time scoring</span><span>Protection reserve</span><span>Revocable badge</span></div>
+          <p>
+            TrustLayer routes project fees into transparent vaults for holder rewards,
+            protection reserves, and public payout proof. No hidden promises. No black-box
+            distribution.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#dashboard">View product demo</a>
+            <a class="secondary-action" href="#onboard">Board a project</a>
+          </div>
+          <div class="proof-strip" aria-label="TrustLayer product pillars">
+            <span>Fees -> vault</span>
+            <span>Balance x time scoring</span>
+            <span>Protection reserve</span>
+            <span>Revocable badge</span>
+            <span>Reward quality score</span>
+          </div>
         </div>
+
         <div class="hero-visual" aria-label="TrustLayer transparent vault visual">
-          <div class="signal-card left"><span></span><strong>Fee flow</strong><em>+2.18 SOL</em></div>
-          <div class="vault-cube"><div class="vault-top"></div><div class="shield-stack"><span></span><span></span><span></span></div><div class="vault-lock"></div></div>
-          <div class="signal-card right"><span></span><strong>Holder pool</strong><em>70%</em></div>
-          <div class="route-line route-a"></div><div class="route-line route-b"></div>
+          <div class="signal-card left">
+            <span></span>
+            <strong>Fee flow</strong>
+            <em>+2.18 SOL</em>
+          </div>
+          <div class="vault-cube">
+            <div class="vault-top"></div>
+            <div class="shield-stack">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="vault-lock"></div>
+          </div>
+          <div class="signal-card right">
+            <span></span>
+            <strong>Holder pool</strong>
+            <em>70%</em>
+          </div>
+          <div class="route-line route-a"></div>
+          <div class="route-line route-b"></div>
         </div>
       </section>
+
       <section class="metrics-panel" aria-label="Sample TrustLayer network metrics">
-        <article><small>Routed inflow</small><strong>128.4 SOL</strong><span>demo network</span></article><article><small>Holder rewards</small><strong>79.6 SOL</strong><span>eligible cycles</span></article><article><small>Protection reserve</small><strong>31.2 SOL</strong><span>locked by rules</span></article><article><small>Verified projects</small><strong>12</strong><span>status monitored</span></article>
+        <article>
+          <small>Routed inflow</small>
+          <strong>128.4 SOL</strong>
+          <span>demo network</span>
+        </article>
+        <article>
+          <small>Holder rewards</small>
+          <strong>79.6 SOL</strong>
+          <span>eligible cycles</span>
+        </article>
+        <article>
+          <small>Protection reserve</small>
+          <strong>3.684 SOL</strong>
+          <span>locked by rules</span>
+        </article>
+        <article>
+          <small>Verified projects</small>
+          <strong>12</strong>
+          <span>status monitored</span>
+        </article>
       </section>
+
       <section class="section" id="dashboard">
-        <div class="section-heading"><span>[01 / cockpit]</span><h2>One page buyers can actually trust.</h2><p>Every boarded token gets a live dashboard showing vault balances, payout logic, verification state, reward cycles, and holder eligibility.</p></div>
+        <div class="section-heading">
+          <span>[01 / cockpit]</span>
+          <h2>One page buyers can actually trust.</h2>
+          <p>
+            Every boarded token gets a live dashboard showing vault balances, payout logic,
+            verification state, reward cycles, and holder eligibility.
+          </p>
+        </div>
+
         <div class="app-shell">
-          <aside class="side-rail"><button class="tab-button active" data-tab="overview">Overview</button><button class="tab-button" data-tab="protection">Protection</button><button class="tab-button" data-tab="rewards">Rewards</button><button class="tab-button" data-tab="onboarding">Dev flow</button></aside>
-          <div class="tab-panel active" id="overview" data-panel><div class="dashboard-header"><div><small>Token cockpit</small><h3>$TRUSTDEMO</h3></div><span class="status-pill good">Verified rewards active</span></div><div class="dashboard-grid"><article class="data-card"><small>Vault balance</small><strong>18.42 SOL</strong><span>+2.18 SOL since last cycle</span></article><article class="data-card"><small>Next payout</small><strong>03:42:18</strong><span>cycle #004 pending</span></article><article class="data-card"><small>Reward split</small><strong>70 / 20 / 10</strong><span>holders / reserve / platform</span></article></div><div class="flow-map"><div>Project fees</div><span></span><div>TrustLayer vault</div><span></span><div>Rewards + reserve</div><span></span><div>Public proof</div></div></div>
-          <div class="tab-panel" id="protection" data-panel><div class="dashboard-header"><div><small>Protection reserve</small><h3>If things go wrong, holders have a defined backstop.</h3></div><span class="status-pill watch">Rule locked</span></div><div class="rule-list"><article><strong>Trigger checks</strong><p>Dev dump threshold, liquidity removal, authority abuse, stopped routing, or emergency review.</p></article><article><strong>Eligible holders</strong><p>Wallets holding before the event, excluding disclosed team wallets and obvious farming clusters.</p></article><article><strong>If no rug</strong><p>Reserve matures into holder bonus rewards, ongoing reserve, liquidity support, and a small success fee.</p></article></div></div>
-          <div class="tab-panel" id="rewards" data-panel><div class="dashboard-header"><div><small>Reward formula</small><h3>Amount held x time held = stronger payout weight.</h3></div><span class="status-pill good">Snapshot based</span></div><div class="formula-card"><code>reward_weight = average_balance x hold_time_multiplier</code><code>holder_payout = wallet_weight / total_weight x holder_pool</code></div><div class="leaderboard"><div><span>#1</span><strong>7Qb...9k2</strong><em>22.4%</em></div><div><span>#2</span><strong>A1p...Lx8</strong><em>16.9%</em></div><div><span>#3</span><strong>Hn4...0Pa</strong><em>11.7%</em></div><div><span>#4</span><strong>3Tb...Vz3</strong><em>8.6%</em></div></div></div>
-          <div class="tab-panel" id="onboarding" data-panel><div class="dashboard-header"><div><small>Three-step onboarding</small><h3>No launchpad required. Board existing tokens first.</h3></div><span class="status-pill">Manual approval MVP</span></div><ol class="steps"><li><strong>Register token</strong><span>Submit mint, dev wallets, socials, and requested split.</span></li><li><strong>Create vault</strong><span>Contract config defines reward, protection, and platform shares.</span></li><li><strong>Go public</strong><span>Dashboard, verification status, badge, and payout history become shareable.</span></li></ol></div>
+          <aside class="side-rail">
+            <button class="tab-button active" data-tab="overview">Overview</button>
+            <button class="tab-button" data-tab="protection">Protection</button>
+            <button class="tab-button" data-tab="rewards">Rewards</button>
+            <button class="tab-button" data-tab="onboarding">Dev flow</button>
+          </aside>
+
+          <div class="tab-panel active" id="overview" data-panel>
+            <div class="dashboard-header">
+              <div>
+                <small>Token cockpit</small>
+                <h3>$TRUSTDEMO</h3>
+              </div>
+              <span class="status-pill good">Verified rewards active</span>
+            </div>
+            <div class="dashboard-grid">
+              <article class="data-card">
+                <small>Vault balance</small>
+                <strong>18.42 SOL</strong>
+                <span>+2.18 SOL since last cycle</span>
+              </article>
+              <article class="data-card">
+                <small>Next payout</small>
+                <strong>03:42:18</strong>
+                <span>cycle #004 pending</span>
+              </article>
+              <article class="data-card">
+                <small>Reward split</small>
+                <strong>70 / 20 / 10</strong>
+                <span>holders / reserve / platform</span>
+              </article>
+              <article class="data-card">
+                <small>Manifest hash</small>
+                <strong>1ad1f45f</strong>
+                <span>payout proof generated</span>
+              </article>
+            </div>
+            <div class="score-strip">
+              <article>
+                <small>Fee transparency</small>
+                <strong>96</strong>
+                <span>split locked + public vault</span>
+              </article>
+              <article>
+                <small>Reward quality</small>
+                <strong>88</strong>
+                <span>real inflow + time-weighted</span>
+              </article>
+              <article>
+                <small>Creator legitimacy</small>
+                <strong>Review</strong>
+                <span>wallet and socials pending</span>
+              </article>
+            </div>
+            <div class="flow-map">
+              <div>Project fees</div>
+              <span></span>
+              <div>TrustLayer vault</div>
+              <span></span>
+              <div>Rewards + reserve</div>
+              <span></span>
+              <div>Public proof</div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="protection" data-panel>
+            <div class="dashboard-header">
+              <div>
+                <small>Protection reserve</small>
+                <h3>If things go wrong, holders have a defined backstop.</h3>
+              </div>
+              <span class="status-pill watch">Rule locked</span>
+            </div>
+            <div class="rule-list">
+              <article>
+                <strong>Trigger checks</strong>
+                <p>Dev dump threshold, liquidity removal, authority abuse, stopped routing, or emergency review.</p>
+              </article>
+              <article>
+                <strong>Eligible holders</strong>
+                <p>Wallets holding before the event, excluding disclosed team wallets and obvious farming clusters.</p>
+              </article>
+              <article>
+                <strong>If no rug</strong>
+                <p>Reserve matures into holder bonus rewards, ongoing reserve, liquidity support, and a small success fee.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="rewards" data-panel>
+            <div class="dashboard-header">
+              <div>
+                <small>Reward formula</small>
+                <h3>Amount held x time held = stronger payout weight.</h3>
+              </div>
+              <span class="status-pill good">Snapshot based</span>
+            </div>
+            <div class="formula-card">
+              <code>reward_weight = average_balance x hold_time_multiplier</code>
+              <code>holder_payout = wallet_weight / total_weight x holder_pool</code>
+              <code>current_holder_pool = 18.42 SOL x 70% = 12.894 SOL</code>
+            </div>
+            <div class="leaderboard">
+              <div><span>#1</span><strong>7Qb...9k2</strong><em>6.805 SOL</em></div>
+              <div><span>#2</span><strong>A1p...Lx8</strong><em>3.540 SOL</em></div>
+              <div><span>#3</span><strong>Hn4...0Pa</strong><em>1.832 SOL</em></div>
+              <div><span>#4</span><strong>3Tb...Vz3</strong><em>0.717 SOL</em></div>
+            </div>
+            <div class="exclusion-list">
+              <strong>Excluded from demo cycle</strong>
+              <span>Team...001: team wallet</span>
+              <span>New...Bot: below minimum hold time</span>
+              <span>Dust...77: below minimum average balance</span>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="onboarding" data-panel>
+            <div class="dashboard-header">
+              <div>
+                <small>Three-step onboarding</small>
+                <h3>No launchpad required. Board existing tokens first.</h3>
+              </div>
+              <span class="status-pill">Manual approval MVP</span>
+            </div>
+            <ol class="steps">
+              <li><strong>Register token</strong><span>Submit mint, dev wallets, socials, and requested split.</span></li>
+              <li><strong>Create vault</strong><span>Contract config defines reward, protection, and platform shares.</span></li>
+              <li><strong>Go public</strong><span>Dashboard, verification status, badge, and payout history become shareable.</span></li>
+            </ol>
+          </div>
         </div>
       </section>
-      <section class="section" id="fleet"><div class="section-heading"><span>[02 / fleet]</span><h2>A public board for every token using the standard.</h2><p>The directory is the social proof layer: traders can scan which projects are funded, which are paying, and which lost verification before they buy.</p></div><div class="fleet-table" aria-label="Sample TrustLayer project directory"><div class="fleet-head"><span>Project</span><span>Status</span><span>Vault</span><span>Reserve</span><span>Last cycle</span></div><article><strong>$TRUSTDEMO</strong><span class="status-pill good">Protected</span><span>18.42 SOL</span><span>4.91 SOL</span><span>12m ago</span></article><article><strong>$AIRBORNE</strong><span class="status-pill good">Verified rewards</span><span>6.08 SOL</span><span>1.77 SOL</span><span>44m ago</span></article><article><strong>$SIGNAL</strong><span class="status-pill watch">Watching</span><span>2.35 SOL</span><span>0.64 SOL</span><span>2h ago</span></article><article><strong>$STATIC</strong><span class="status-pill danger">Routing paused</span><span>0.42 SOL</span><span>0.12 SOL</span><span>18h ago</span></article></div></section>
-      <section class="section split" id="verification"><div class="section-heading compact"><span>[03 / verification]</span><h2>The badge has to mean something.</h2><p>TrustLayer should never be a logo anyone can rent forever. Verification is live, rule-based, and revocable when the fee flow or project behavior breaks.</p></div><div class="tier-stack"><article><span class="status-pill">Tracked</span><h3>Dashboard active</h3><p>Token data is visible, but reward routing has not earned verified status yet.</p></article><article><span class="status-pill good">Verified rewards</span><h3>Vault funded + payout flow active</h3><p>Fees are entering TrustLayer and reward cycles are publicly tracked.</p></article><article><span class="status-pill good">Protected</span><h3>Reserve active + dev wallets disclosed</h3><p>Protection reserve rules are configured and project wallets are visible.</p></article><article><span class="status-pill danger">Warning / revoked</span><h3>Trust signal removed</h3><p>Routing stopped, suspicious wallet behavior appeared, or project rules were broken.</p></article></div></section>
-      <section class="section split" id="mechanics"><div class="section-heading compact"><span>[04 / mechanics]</span><h2>Built so incentives are visible.</h2><p>The first contract does not need to replace pump.fun. It makes the fee flow auditable once a project routes funds into TrustLayer.</p></div><div class="mechanic-cards"><article><span class="card-index">01</span><h3>Contract vault split</h3><p>Routed fees are split by public rules into holder rewards, protection reserve, and TrustLayer revenue.</p></article><article><span class="card-index">02</span><h3>Off-chain holder math</h3><p>Backend indexing handles balances, time held, caps, and scoring so the chain is not wasted on heavy math.</p></article><article><span class="card-index">03</span><h3>On-chain receipts</h3><p>Payout cycles, vault deposits, and batch hashes are logged so users can verify the system did what it said.</p></article></div></section>
-      <section class="section" id="onboard"><div class="section-heading"><span>[05 / board]</span><h2>Free to start. TrustLayer earns from real activity.</h2><p>Early projects can apply for no-upfront-cost onboarding. Platform fees come from routed inflows, not from charging builders before they prove demand.</p></div><div class="pricing-row"><article class="pricing-card featured"><small>Launch partner</small><strong>0 SOL upfront</strong><p>Manual approval, higher routed take-rate, public dashboard, and badge status.</p></article><article class="pricing-card"><small>Verified tier</small><strong>0.5 SOL later</strong><p>Lower routed take-rate after the first rollout, with the same public proof standards.</p></article><article class="pricing-card"><small>Premium</small><strong>Custom</strong><p>Featured placement, custom splits, KOL launch coordination, and priority support.</p></article></div><div class="onboard-form" aria-label="Early access onboarding preview"><div><small>Early access intake</small><h3>Board a token without changing its code.</h3><p>First rollout is invite/manual approval so clones and low-effort copycats do not dilute the standard before the contract workflow is live.</p></div><form><label>Token mint<input type="text" placeholder="Solana mint address" /></label><label>Project X / website<input type="text" placeholder="@project or project URL" /></label><label>Requested split<select><option>70% rewards / 20% reserve / 10% platform</option><option>65% rewards / 25% reserve / 10% platform</option><option>Custom review</option></select></label><a class="primary-action" href="https://x.com/jordanposs" target="_blank" rel="noreferrer">DM to apply</a></form></div></section>
-      <section class="section status-section" id="status"><div><span>[06 / status]</span><h2>Current build status</h2></div><div class="status-board"><div><strong>Live landing</strong><span>complete</span></div><div><strong>Product cockpit</strong><span>in progress</span></div><div><strong>Vault contract spec</strong><span>next</span></div><div><strong>Holder indexer</strong><span>next</span></div></div><a class="primary-action" href="https://x.com/jordanposs" target="_blank" rel="noreferrer">DM @jordanposs for early access</a></section>
+
+      <section class="section" id="fleet">
+        <div class="section-heading">
+          <span>[02 / fleet]</span>
+          <h2>A public board for every token using the standard.</h2>
+          <p>
+            The directory is the social proof layer: traders can scan which projects are funded,
+            which are paying, and which lost verification before they buy.
+          </p>
+        </div>
+        <div class="fleet-table" aria-label="Sample TrustLayer project directory">
+          <div class="fleet-head">
+            <span>Project</span>
+            <span>Status</span>
+            <span>Vault</span>
+            <span>Reserve</span>
+            <span>Last cycle</span>
+          </div>
+          <article>
+            <strong>$TRUSTDEMO</strong>
+            <span class="status-pill good">Protected</span>
+            <span>18.42 SOL</span>
+            <span>4.91 SOL</span>
+            <span>12m ago</span>
+          </article>
+          <article>
+            <strong>$AIRBORNE</strong>
+            <span class="status-pill good">Verified rewards</span>
+            <span>6.08 SOL</span>
+            <span>1.77 SOL</span>
+            <span>44m ago</span>
+          </article>
+          <article>
+            <strong>$SIGNAL</strong>
+            <span class="status-pill watch">Watching</span>
+            <span>2.35 SOL</span>
+            <span>0.64 SOL</span>
+            <span>2h ago</span>
+          </article>
+          <article>
+            <strong>$STATIC</strong>
+            <span class="status-pill danger">Routing paused</span>
+            <span>0.42 SOL</span>
+            <span>0.12 SOL</span>
+            <span>18h ago</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="section split" id="verification">
+        <div class="section-heading compact">
+          <span>[03 / verification]</span>
+          <h2>The badge has to mean something.</h2>
+          <p>
+            TrustLayer should never be a logo anyone can rent forever. Verification is live,
+            rule-based, and revocable when the fee flow or project behavior breaks.
+          </p>
+        </div>
+        <div class="tier-stack">
+          <article>
+            <span class="status-pill">Tracked</span>
+            <h3>Dashboard active</h3>
+            <p>Token data is visible, but reward routing has not earned verified status yet.</p>
+          </article>
+          <article>
+            <span class="status-pill good">Verified rewards</span>
+            <h3>Vault funded + payout flow active</h3>
+            <p>Fees are entering TrustLayer and reward cycles are publicly tracked.</p>
+          </article>
+          <article>
+            <span class="status-pill good">Protected</span>
+            <h3>Reserve active + dev wallets disclosed</h3>
+            <p>Protection reserve rules are configured and project wallets are visible.</p>
+          </article>
+          <article>
+            <span class="status-pill danger">Warning / revoked</span>
+            <h3>Trust signal removed</h3>
+            <p>Routing stopped, suspicious wallet behavior appeared, or project rules were broken.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section split" id="mechanics">
+        <div class="section-heading compact">
+          <span>[04 / mechanics]</span>
+          <h2>Built so incentives are visible.</h2>
+          <p>
+            The first contract does not need to replace pump.fun. It makes the fee flow auditable
+            once a project routes funds into TrustLayer.
+          </p>
+        </div>
+        <div class="mechanic-cards">
+          <article>
+            <span class="card-index">01</span>
+            <h3>Contract vault split</h3>
+            <p>Routed fees are split by public rules into holder rewards, protection reserve, and TrustLayer revenue.</p>
+          </article>
+          <article>
+            <span class="card-index">02</span>
+            <h3>Off-chain holder math</h3>
+            <p>Backend indexing handles balances, time held, caps, and scoring so the chain is not wasted on heavy math.</p>
+          </article>
+          <article>
+            <span class="card-index">03</span>
+            <h3>On-chain receipts</h3>
+            <p>Payout cycles, vault deposits, and batch hashes are logged so users can verify the system did what it said.</p>
+          </article>
+          <article>
+            <span class="card-index">04</span>
+            <h3>Quality scores</h3>
+            <p>TrustLayer separates real reward flow from circular deposits, unclear fee claims, and creator extraction.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="onboard">
+        <div class="section-heading">
+          <span>[05 / board]</span>
+          <h2>Free to start. TrustLayer earns from real activity.</h2>
+          <p>
+            Early projects can apply for no-upfront-cost onboarding. Platform fees come from routed inflows,
+            not from charging builders before they prove demand.
+          </p>
+        </div>
+        <div class="pricing-row">
+          <article class="pricing-card featured">
+            <small>Launch partner</small>
+            <strong>0 SOL upfront</strong>
+            <p>Manual approval, higher routed take-rate, public dashboard, and badge status.</p>
+          </article>
+          <article class="pricing-card">
+            <small>Verified tier</small>
+            <strong>0.5 SOL later</strong>
+            <p>Lower routed take-rate after the first rollout, with the same public proof standards.</p>
+          </article>
+          <article class="pricing-card">
+            <small>Premium</small>
+            <strong>Custom</strong>
+            <p>Featured placement, custom splits, KOL launch coordination, and priority support.</p>
+          </article>
+        </div>
+        <div class="onboard-form" aria-label="Early access onboarding preview">
+          <div>
+            <small>Early access intake</small>
+            <h3>Board a token without changing its code.</h3>
+            <p>
+              First rollout is invite/manual approval so clones and low-effort copycats do not
+              dilute the standard before the contract workflow is live.
+            </p>
+          </div>
+          <form>
+            <label>
+              Token mint
+              <input type="text" placeholder="Solana mint address" />
+            </label>
+            <label>
+              Project X / website
+              <input type="text" placeholder="@project or project URL" />
+            </label>
+            <label>
+              Requested split
+              <select>
+                <option>70% rewards / 20% reserve / 10% platform</option>
+                <option>65% rewards / 25% reserve / 10% platform</option>
+                <option>Custom review</option>
+              </select>
+            </label>
+            <a class="primary-action" href="https://x.com/jordanposs" target="_blank" rel="noreferrer">
+              DM to apply
+            </a>
+          </form>
+        </div>
+      </section>
+
+      <section class="section status-section" id="status">
+        <div>
+          <span>[06 / status]</span>
+          <h2>Current build status</h2>
+        </div>
+        <div class="status-board">
+          <div><strong>Live landing</strong><span>complete</span></div>
+          <div><strong>Product cockpit</strong><span>in progress</span></div>
+          <div><strong>Vault contract spec</strong><span>next</span></div>
+          <div><strong>Holder indexer</strong><span>next</span></div>
+        </div>
+        <a class="primary-action" href="https://x.com/jordanposs" target="_blank" rel="noreferrer">
+          DM @jordanposs for early access
+        </a>
+      </section>
     </main>
-    <footer><strong>TrustLayer</strong><span>Experimental infrastructure. Rewards and reserves are variable and not guaranteed. Always verify on-chain data before trading.</span></footer>
+
+    <footer>
+      <strong>TrustLayer</strong>
+      <span>
+        Experimental infrastructure. Rewards and reserves are variable and not guaranteed.
+        Always verify on-chain data before trading.
+      </span>
+    </footer>
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>
