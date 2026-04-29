@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { calculateRewardCycle, splitInflow } from "../src/reward-engine.js";
 import { demoHolders, demoProject } from "../src/demo-data.js";
+import { createManifestHash } from "../src/manifest-hash.js";
+import { validateFeeSplit, validateProjectApplication } from "../src/project-validator.js";
 
 const pools = splitInflow(18.42, demoProject.splitBps);
 
@@ -37,5 +39,36 @@ assert.throws(() => {
     platformFee: 999,
   });
 }, /10000 bps/);
+
+assert.equal(validateFeeSplit(demoProject.splitBps).ok, true);
+
+const badSplit = validateFeeSplit({
+  holderRewards: 5000,
+  protectionReserve: 500,
+  projectTreasury: 3000,
+  platformFee: 1500,
+});
+
+assert.equal(badSplit.ok, false);
+assert.ok(badSplit.errors.includes("holderRewards must be at least 6000 bps"));
+assert.ok(badSplit.errors.includes("protectionReserve must be at least 1000 bps"));
+assert.ok(badSplit.errors.includes("projectTreasury cannot exceed 1500 bps"));
+
+const application = validateProjectApplication({
+  projectName: "Trust Demo",
+  ticker: "TRUSTDEMO",
+  tokenMint: demoProject.tokenMint,
+  devWallets: ["DevWallet111111111111111111111111111111111"],
+  splitBps: demoProject.splitBps,
+});
+
+assert.equal(application.ok, true);
+
+const manifestHash = createManifestHash({
+  manifestVersion: "trustlayer-payout-v0",
+  projectId: "trustdemo",
+});
+
+assert.equal(manifestHash.length, 64);
 
 console.log("Reward engine tests passed.");
