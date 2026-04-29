@@ -1,0 +1,91 @@
+{
+  "manifestVersion": "trustlayer-payout-v0",
+  "projectId": "trustdemo",
+  "tokenMint": "DemoMint111111111111111111111111111111111111",
+  "vaultAddress": "TrustVault1111111111111111111111111111111111",
+  "snapshotSlot": 337420512,
+  "formulaVersion": "avg-balance-time-v0.1",
+  "totalInflow": 18.42,
+  "pools": {
+    "holderRewards": 12.894,
+    "protectionReserve": 3.684,
+    "projectTreasury": 0,
+    "platformFee": 1.842
+  },
+  "totalEligibleWeight": 10345000,
+  "eligibleHolderCount": 4,
+  "payouts": [
+    {
+      "wallet": "7Qb...9k2",
+      "averageBalance": 1820000,
+      "heldSeconds": 691200,
+      "multiplier": 3,
+      "weight": 5460000,
+      "rewardShare": 0.527791203479942,
+      "payoutAmount": 6.805339778,
+      "excludedReason": null
+    },
+    {
+      "wallet": "A1p...Lx8",
+      "averageBalance": 1420000,
+      "heldSeconds": 345600,
+      "multiplier": 2,
+      "weight": 2840000,
+      "rewardShare": 0.27452875785403574,
+      "payoutAmount": 3.539773804,
+      "excludedReason": null
+    },
+    {
+      "wallet": "Hn4...0Pa",
+      "averageBalance": 980000,
+      "heldSeconds": 108000,
+      "multiplier": 1.5,
+      "weight": 1470000,
+      "rewardShare": 0.14209763170613823,
+      "payoutAmount": 1.832206863,
+      "excludedReason": null
+    },
+    {
+      "wallet": "3Tb...Vz3",
+      "averageBalance": 460000,
+      "heldSeconds": 43200,
+      "multiplier": 1.25,
+      "weight": 575000,
+      "rewardShare": 0.055582406959884,
+      "payoutAmount": 0.716679555,
+      "excludedReason": null
+    },
+    {
+      "wallet": "Team...001",
+      "averageBalance": 3000000,
+      "heldSeconds": 777600,
+      "multiplier": 0,
+      "weight": 0,
+      "rewardShare": 0,
+      "payoutAmount": 0,
+      "excludedReason": "team_wallet"
+    },
+    {
+      "wallet": "New...Bot",
+      "averageBalance": 700000,
+      "heldSeconds": 1080,
+      "multiplier": 0,
+      "weight": 0,
+      "rewardShare": 0,
+      "payoutAmount": 0,
+      "excludedReason": "below_minimum_hold_time"
+    },
+    {
+      "wallet": "Dust...77",
+      "averageBalance": 2500,
+      "heldSeconds": 604800,
+      "multiplier": 0,
+      "weight": 0,
+      "rewardShare": 0,
+      "payoutAmount": 0,
+      "excludedReason": "below_minimum_average_balance"
+    }
+  ],
+  "manifestHash": "1ad1f45f7ba9a7a0b1d2f76b8ee506cc4244843fc717fa48227d855f6d8c332e",
+  "generatedAt": "2026-04-29T08:07:12.341Z"
+}
