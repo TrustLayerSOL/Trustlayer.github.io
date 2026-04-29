@@ -5,7 +5,7 @@ use anchor_lang::solana_program::{
     system_instruction,
 };
 
-declare_id!("Fg6PaFpoGXkYsidMpWxTWqifpVxgkZ5T8U5Lnd4L3bG");
+declare_id!("EFSdi1aqQsUg7Am9bqTDhxhKzB5EqJRJxT4Jiux3LX2s");
 
 const BPS_DENOMINATOR: u16 = 10_000;
 const MIN_LOCK_SECONDS: i64 = 86_400;
@@ -211,7 +211,7 @@ pub mod trustlayer_vault {
             total_amount: round.total_amount,
             manifest_hash: round.manifest_hash,
             merkle_root: round.merkle_root,
-            formula_version: round.formula_version,
+            formula_version: round.formula_version.clone(),
             claim_start: round.claim_start,
             claim_end: round.claim_end,
         });
