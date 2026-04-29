@@ -1,7 +1,7 @@
-import { createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import { calculateRewardCycle, createPayoutManifest } from "../src/reward-engine.js";
 import { demoHolders, demoProject } from "../src/demo-data.js";
+import { createManifestHash } from "../src/manifest-hash.js";
 
 const cycle = calculateRewardCycle({
   holders: demoHolders,
@@ -17,8 +17,7 @@ const manifest = createPayoutManifest({
   formulaVersion: "avg-balance-time-v0.1",
 });
 
-const canonical = JSON.stringify(manifest);
-const manifestHash = createHash("sha256").update(canonical).digest("hex");
+const manifestHash = createManifestHash(manifest);
 const output = {
   ...manifest,
   manifestHash,
