@@ -16,6 +16,12 @@ Run tests:
 node backend/test/reward-engine.test.js
 ```
 
+Verify the demo payout manifest:
+
+```bash
+node backend/scripts/verify-demo-manifest.js
+```
+
 Current scope:
 
 - Average balance weighting
@@ -25,6 +31,9 @@ Current scope:
 - Excluded wallets
 - Holder pool allocation
 - Protection reserve and platform split preview
+- Fee split policy validation
+- Project application validation
+- Payout manifest hashing and verification
 
 Next backend steps:
 
