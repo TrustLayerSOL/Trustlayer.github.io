@@ -5,7 +5,7 @@ use anchor_lang::solana_program::{
     system_instruction,
 };
 
-declare_id!("TLVault1111111111111111111111111111111111111");
+declare_id!("Fg6PaFpoGXkYsidMpWxTWqifpVxgkZ5T8U5Lnd4L3bG");
 
 const BPS_DENOMINATOR: u16 = 10_000;
 const MIN_LOCK_SECONDS: i64 = 86_400;
