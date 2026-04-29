@@ -9,12 +9,13 @@
 
 ## Phase 1: Contract-Backed Proof of Concept
 
-- Build Anchor vault program from `contracts/trustlayer-vault-spec.md`.
+- Scaffold Anchor vault program from `contracts/trustlayer-vault-spec.md`.
 - Create project-specific vault accounts.
 - Enforce basis-point split on every deposit.
 - Emit revenue and payout-round events.
 - Store payout manifest hash on-chain.
 - Use multisig/admin separation before meaningful funds.
+- Add localnet integration tests once Solana/Anchor CLI is installed.
 
 ## Phase 2: Holder Indexer
 
