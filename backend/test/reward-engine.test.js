@@ -3,6 +3,7 @@ import { calculateRewardCycle, splitInflow } from "../src/reward-engine.js";
 import { demoHolders, demoProject } from "../src/demo-data.js";
 import { createManifestHash } from "../src/manifest-hash.js";
 import { validateFeeSplit, validateProjectApplication } from "../src/project-validator.js";
+import { evaluateTokenSafety, TOKEN_PROGRAMS } from "../src/token-safety-scanner.js";
 
 const pools = splitInflow(18.42, demoProject.splitBps);
 
@@ -70,5 +71,76 @@ const manifestHash = createManifestHash({
 });
 
 assert.equal(manifestHash.length, 64);
+
+const cleanToken = evaluateTokenSafety({
+  mint: demoProject.tokenMint,
+  tokenProgram: TOKEN_PROGRAMS.splToken,
+  mintAuthorityPresent: false,
+  freezeAuthorityPresent: false,
+  extensions: [],
+});
+
+assert.equal(cleanToken.ok, true);
+assert.equal(cleanToken.status, "verified");
+
+const blockedSafetyCases = [
+  {
+    name: "mint authority",
+    facts: { tokenProgram: TOKEN_PROGRAMS.splToken, mintAuthorityPresent: true },
+    code: "mint_authority_present",
+  },
+  {
+    name: "freeze authority",
+    facts: { tokenProgram: TOKEN_PROGRAMS.splToken, freezeAuthorityPresent: true },
+    code: "freeze_authority_present",
+  },
+  {
+    name: "permanentDelegate",
+    facts: { tokenProgram: TOKEN_PROGRAMS.token2022, extensions: ["permanentDelegate"] },
+    code: "blocked_extension_permanentDelegate",
+  },
+  {
+    name: "nonTransferable",
+    facts: { tokenProgram: TOKEN_PROGRAMS.token2022, extensions: ["nonTransferable"] },
+    code: "blocked_extension_nonTransferable",
+  },
+  {
+    name: "default frozen account state",
+    facts: { tokenProgram: TOKEN_PROGRAMS.token2022, defaultAccountState: "frozen" },
+    code: "default_account_state_frozen",
+  },
+  {
+    name: "transferHook",
+    facts: { tokenProgram: TOKEN_PROGRAMS.token2022, extensions: ["transferHook"] },
+    code: "blocked_extension_transferHook",
+  },
+  {
+    name: "transferFeeConfig",
+    facts: { tokenProgram: TOKEN_PROGRAMS.token2022, extensions: ["transferFeeConfig"] },
+    code: "blocked_extension_transferFeeConfig",
+  },
+  {
+    name: "unknown extension",
+    facts: { tokenProgram: TOKEN_PROGRAMS.token2022, extensions: ["mysteryExtension"] },
+    code: "unknown_extension_mysteryExtension",
+  },
+];
+
+for (const testCase of blockedSafetyCases) {
+  const result = evaluateTokenSafety(testCase.facts);
+  assert.equal(result.ok, false, `${testCase.name} should fail TrustLayer safety validation`);
+  assert.equal(result.status, "rejected");
+  assert.ok(
+    result.hardBlocks.some((block) => block.code === testCase.code),
+    `${testCase.name} should include ${testCase.code}`,
+  );
+}
+
+const knownSafeExtension = evaluateTokenSafety({
+  tokenProgram: TOKEN_PROGRAMS.token2022,
+  extensions: ["metadataPointer"],
+});
+
+assert.equal(knownSafeExtension.ok, true);
 
 console.log("Reward engine tests passed.");
