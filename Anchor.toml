@@ -1,12 +1,11 @@
+[toolchain]
+
 [features]
-seeds = false
+resolution = true
 skip-lint = false
 
 [programs.localnet]
-trustlayer_vault = "Fg6PaFpoGXkYsidMpWxTWqifpVxgkZ5T8U5Lnd4L3bG"
-
-[registry]
-url = "https://api.apr.dev"
+trustlayer_vault = "EFSdi1aqQsUg7Am9bqTDhxhKzB5EqJRJxT4Jiux3LX2s"
 
 [provider]
 cluster = "localnet"
@@ -14,3 +13,5 @@ wallet = "~/.config/solana/id.json"
 
 [scripts]
 test = "node backend/test/reward-engine.test.js"
+
+[hooks]
