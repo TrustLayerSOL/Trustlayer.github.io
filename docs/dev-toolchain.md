@@ -1,7 +1,7 @@
 # TrustLayer Dev Toolchain
 
-This Mac currently has the bundled Codex `node`, but not the full Solana build
-toolchain. Use the newer development machine for contract compilation.
+This Mac has the TrustLayer frontend/backend toolchain plus the Solana/Anchor
+contract build toolchain installed.
 
 ## Required Tools
 
@@ -9,16 +9,25 @@ toolchain. Use the newer development machine for contract compilation.
 - Rust stable
 - Solana CLI
 - Anchor CLI
+- `cargo-build-sbf`
 
 ## Sanity Checks
 
 ```bash
 node -v
 npm -v
+rustup --version
 rustc --version
 cargo --version
 solana --version
 anchor --version
+cargo build-sbf --version
+```
+
+If a new shell cannot find Rust/Solana build helpers, reload the shell or run:
+
+```bash
+export PATH="/opt/homebrew/opt/rustup/bin:$HOME/.cargo/bin:$PATH"
 ```
 
 ## Local Contract Build
@@ -26,7 +35,14 @@ anchor --version
 From the project root:
 
 ```bash
+export PATH="/opt/homebrew/opt/rustup/bin:$HOME/.cargo/bin:$PATH"
 anchor build
+```
+
+Current local program id:
+
+```text
+EFSdi1aqQsUg7Am9bqTDhxhKzB5EqJRJxT4Jiux3LX2s
 ```
 
 ## Backend Prototype Checks
