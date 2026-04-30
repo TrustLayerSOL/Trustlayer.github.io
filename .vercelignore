@@ -1,0 +1,15 @@
+node_modules
+dist
+target
+.anchor
+test-ledger
+.git
+.DS_Store
+
+# Core/backend material remains in the repo temporarily, but the public
+# website deployment only needs the static site surface.
+backend
+contracts
+programs
+docs
+marketing
