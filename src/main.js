@@ -45,6 +45,7 @@ const scannerApiBase =
   import.meta.env.VITE_TRUSTLAYER_SCANNER_API_URL ||
   localStorage.getItem("trustlayerScannerApiUrl") ||
   "http://127.0.0.1:8787";
+const isLocalScannerApi = scannerApiBase.includes("127.0.0.1") || scannerApiBase.includes("localhost");
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -75,12 +76,13 @@ function renderScannerEmpty() {
       <span class="status-pill">Awaiting scan</span>
       <h3>No mint checked yet.</h3>
       <p>
-        Run the scanner API locally with <code>npm run scanner:serve</code> from
-        <code>trustlayer-core</code>. Production API hosting is the next deployment step.
+        ${isLocalScannerApi
+          ? `Run the scanner API locally with <code>npm run scanner:serve</code> from <code>trustlayer-core</code>.`
+          : "Paste a mint address to check it against the hosted TrustLayer scanner API."}
       </p>
     </div>
   `;
-  setScannerConnection("Local API", "watch");
+  setScannerConnection(isLocalScannerApi ? "Local API" : "Hosted API", "watch");
 }
 
 function renderScannerLoading(mint) {
@@ -104,8 +106,9 @@ function renderScannerError(message) {
       <h3>Could not complete the scan.</h3>
       <p>${escapeHtml(message)}</p>
       <p>
-        Local testing requires <code>npm run scanner:serve</code> in
-        <code>trustlayer-core</code>. A hosted scanner API is required before public production scans.
+        ${isLocalScannerApi
+          ? `Local testing requires <code>npm run scanner:serve</code> in <code>trustlayer-core</code>.`
+          : "The hosted scanner API did not return a usable response. Try again shortly."}
       </p>
     </div>
   `;
