@@ -10,3 +10,4 @@ test-ledger/
 # Local environment files
 .env
 .env.local
+.vercel
