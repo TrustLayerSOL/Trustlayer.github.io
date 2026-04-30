@@ -27,3 +27,207 @@ function renderTimer() {
 
 renderTimer();
 setInterval(renderTimer, 1000);
+
+const scannerForm = document.querySelector("[data-scanner-form]");
+const scannerMint = document.querySelector("[data-scanner-mint]");
+const scannerNetwork = document.querySelector("[data-scanner-network]");
+const scannerResult = document.querySelector("[data-scanner-result]");
+const scannerConnection = document.querySelector("[data-scanner-connection]");
+const exampleMintButtons = document.querySelectorAll("[data-example-mint]");
+const clearScannerButton = document.querySelector("[data-clear-scanner]");
+
+const scannerApiBase =
+  window.TRUSTLAYER_SCANNER_API_URL ||
+  localStorage.getItem("trustlayerScannerApiUrl") ||
+  "http://127.0.0.1:8787";
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function shortAddress(value) {
+  if (!value || value.length < 12) return value || "none";
+  return `${value.slice(0, 4)}...${value.slice(-4)}`;
+}
+
+function setScannerConnection(label, variant = "watch") {
+  if (!scannerConnection) return;
+
+  scannerConnection.className = `status-pill ${variant}`.trim();
+  scannerConnection.textContent = label;
+}
+
+function renderScannerEmpty() {
+  if (!scannerResult) return;
+
+  scannerResult.innerHTML = `
+    <div class="scanner-empty">
+      <span class="status-pill">Awaiting scan</span>
+      <h3>No mint checked yet.</h3>
+      <p>
+        Run the scanner API locally with <code>npm run scanner:serve</code> from
+        <code>trustlayer-core</code>. Production API hosting is the next deployment step.
+      </p>
+    </div>
+  `;
+  setScannerConnection("Local API", "watch");
+}
+
+function renderScannerLoading(mint) {
+  if (!scannerResult) return;
+
+  scannerResult.innerHTML = `
+    <div class="scanner-empty">
+      <span class="status-pill watch">Scanning</span>
+      <h3>Checking ${escapeHtml(shortAddress(mint))}</h3>
+      <p>Reading mint authorities, token program, default account state, and Token-2022 extensions.</p>
+    </div>
+  `;
+}
+
+function renderScannerError(message) {
+  if (!scannerResult) return;
+
+  scannerResult.innerHTML = `
+    <div class="scanner-empty">
+      <span class="status-pill danger">Scanner unavailable</span>
+      <h3>Could not complete the scan.</h3>
+      <p>${escapeHtml(message)}</p>
+      <p>
+        Local testing requires <code>npm run scanner:serve</code> in
+        <code>trustlayer-core</code>. A hosted scanner API is required before public production scans.
+      </p>
+    </div>
+  `;
+  setScannerConnection("Offline", "danger");
+}
+
+function renderScannerResult(payload) {
+  if (!scannerResult) return;
+
+  if (!payload?.ok) {
+    renderScannerError(payload?.error?.message || "The scanner rejected the request.");
+    return;
+  }
+
+  const result = payload.result || payload;
+  const isVerified = result.status === "verified";
+  const hardBlocks = result.hardBlocks || [];
+  const facts = result.facts || {};
+  const extensions = facts.extensions || [];
+  const headline = payload.copy?.headline || (isVerified ? "Token standard passed." : "Token standard rejected.");
+  const body =
+    payload.copy?.body ||
+    "This is a technical verification result, not a statement about price, profit, or trading safety.";
+
+  setScannerConnection("Connected", "good");
+
+  scannerResult.innerHTML = `
+    <div class="scanner-verdict ${isVerified ? "verified" : "rejected"}">
+      <span class="status-pill ${isVerified ? "good" : "danger"}">
+        ${isVerified ? "Verified candidate" : "Rejected"}
+      </span>
+      <h3>${escapeHtml(headline)}</h3>
+      <p>${escapeHtml(body)}</p>
+    </div>
+
+    <div class="scanner-facts">
+      <article>
+        <small>Mint</small>
+        <strong>${escapeHtml(shortAddress(result.mint || result.mintAddress || facts.mint))}</strong>
+        <span>${escapeHtml(result.network || "mainnet-beta")}</span>
+      </article>
+      <article>
+        <small>Token program</small>
+        <strong>${escapeHtml(facts.tokenProgram || "unknown")}</strong>
+        <span>${escapeHtml(facts.isToken2022 ? "Token-2022 mint" : "Standard SPL token")}</span>
+      </article>
+      <article>
+        <small>Mint authority</small>
+        <strong>${facts.mintAuthorityPresent ? "Present" : "Disabled"}</strong>
+        <span>${escapeHtml(shortAddress(facts.mintAuthority))}</span>
+      </article>
+      <article>
+        <small>Freeze authority</small>
+        <strong>${facts.freezeAuthorityPresent ? "Present" : "Disabled"}</strong>
+        <span>${escapeHtml(shortAddress(facts.freezeAuthority))}</span>
+      </article>
+    </div>
+
+    <div class="scanner-detail-grid">
+      <div>
+        <small>Hard-block reasons</small>
+        ${
+          hardBlocks.length
+            ? `<ul>${hardBlocks.map((item) => `<li>${escapeHtml(item.label || item.rule || item)}</li>`).join("")}</ul>`
+            : `<p>No hard-block token controls detected by this scanner pass.</p>`
+        }
+      </div>
+      <div>
+        <small>Extensions detected</small>
+        ${
+          extensions.length
+            ? `<ul>${extensions.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+            : `<p>No Token-2022 extensions detected.</p>`
+        }
+      </div>
+    </div>
+
+    <p class="scanner-disclaimer">
+      TrustLayer scans token mechanics only. It does not guarantee project behavior, market price,
+      liquidity, rewards, or protection outcomes.
+    </p>
+  `;
+}
+
+async function scanToken(mint, network) {
+  const url = new URL(`/api/scanner/token-safety/${mint}`, scannerApiBase);
+  url.searchParams.set("network", network);
+
+  const response = await fetch(url.toString());
+  const payload = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(payload?.error?.message || `Scanner returned HTTP ${response.status}.`);
+  }
+
+  return payload;
+}
+
+scannerForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const mint = scannerMint?.value.trim();
+  const network = scannerNetwork?.value || "mainnet-beta";
+
+  if (!mint) {
+    renderScannerError("Paste a Solana mint address before scanning.");
+    return;
+  }
+
+  renderScannerLoading(mint);
+
+  try {
+    const payload = await scanToken(mint, network);
+    renderScannerResult(payload);
+  } catch (error) {
+    renderScannerError(error instanceof Error ? error.message : "Unknown scanner error.");
+  }
+});
+
+exampleMintButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (scannerMint) scannerMint.value = button.dataset.exampleMint || "";
+    scannerForm?.requestSubmit();
+  });
+});
+
+clearScannerButton?.addEventListener("click", () => {
+  if (scannerMint) scannerMint.value = "";
+  renderScannerEmpty();
+});

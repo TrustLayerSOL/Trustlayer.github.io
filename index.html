@@ -24,6 +24,7 @@
       <span>HOLDER REWARDS</span>
       <span>PROTECTION RESERVE</span>
       <span>PUBLIC PROOF</span>
+      <span>TOKEN SAFETY SCANNER</span>
     </div>
 
     <header class="topbar">
@@ -36,6 +37,7 @@
       </a>
       <nav class="nav" aria-label="Main navigation">
         <a href="#dashboard">Dashboard</a>
+        <a href="#scanner">Scanner</a>
         <a href="#fleet">Fleet</a>
         <a href="#verification">Trust tiers</a>
         <a href="#mechanics">Mechanics</a>
@@ -266,9 +268,70 @@
         </div>
       </section>
 
+      <section class="section" id="scanner">
+        <div class="section-heading">
+          <span>[02 / scanner]</span>
+          <h2>Scan the token before the badge goes live.</h2>
+          <p>
+            TrustLayer verification starts with the mint itself. The scanner rejects hidden token
+            controls, surprise extensions, live authorities, transfer traps, and fee rerouting
+            inside the token.
+          </p>
+        </div>
+
+        <div class="scanner-console" data-scanner-console>
+          <div class="scanner-panel">
+            <div class="scanner-header">
+              <div>
+                <small>Token safety scanner</small>
+                <h3>Paste a Solana mint address.</h3>
+              </div>
+              <span class="status-pill watch" data-scanner-connection>Local API</span>
+            </div>
+            <form class="scanner-form" data-scanner-form>
+              <label>
+                Mint address
+                <input
+                  data-scanner-mint
+                  type="text"
+                  autocomplete="off"
+                  spellcheck="false"
+                  placeholder="So11111111111111111111111111111111111111112"
+                />
+              </label>
+              <label>
+                Network
+                <select data-scanner-network>
+                  <option value="mainnet-beta">Mainnet beta</option>
+                  <option value="devnet">Devnet</option>
+                </select>
+              </label>
+              <button class="primary-action" type="submit">Scan token</button>
+            </form>
+            <div class="scanner-actions">
+              <button type="button" data-example-mint="So11111111111111111111111111111111111111112">
+                Try wrapped SOL
+              </button>
+              <button type="button" data-clear-scanner>Clear</button>
+            </div>
+          </div>
+
+          <div class="scanner-result" data-scanner-result>
+            <div class="scanner-empty">
+              <span class="status-pill">Awaiting scan</span>
+              <h3>No mint checked yet.</h3>
+              <p>
+                Run the scanner API locally with <code>npm run scanner:serve</code> from
+                <code>trustlayer-core</code>. Production API hosting is the next deployment step.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="section" id="fleet">
         <div class="section-heading">
-          <span>[02 / fleet]</span>
+          <span>[03 / fleet]</span>
           <h2>A public board for every token using the standard.</h2>
           <p>
             The directory is the social proof layer: traders can scan which projects are funded,
@@ -316,7 +379,7 @@
 
       <section class="section split" id="verification">
         <div class="section-heading compact">
-          <span>[03 / verification]</span>
+          <span>[04 / verification]</span>
           <h2>The badge has to mean something.</h2>
           <p>
             TrustLayer should never be a logo anyone can rent forever. Verification is live,
@@ -349,7 +412,7 @@
 
       <section class="section split" id="mechanics">
         <div class="section-heading compact">
-          <span>[04 / mechanics]</span>
+          <span>[05 / mechanics]</span>
           <h2>Built so incentives are visible.</h2>
           <p>
             The first contract does not need to replace pump.fun. It makes the fee flow auditable
@@ -382,7 +445,7 @@
 
       <section class="section" id="onboard">
         <div class="section-heading">
-          <span>[05 / board]</span>
+          <span>[06 / board]</span>
           <h2>Free to start. TrustLayer earns from real activity.</h2>
           <p>
             Early projects can apply for no-upfront-cost onboarding. Platform fees come from routed inflows,
@@ -441,7 +504,7 @@
 
       <section class="section status-section" id="status">
         <div>
-          <span>[06 / status]</span>
+          <span>[07 / status]</span>
           <h2>Current build status</h2>
         </div>
         <div class="status-board">
