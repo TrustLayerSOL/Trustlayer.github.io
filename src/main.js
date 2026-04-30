@@ -1,3 +1,5 @@
+import { toScannerViewModel } from "./scanner-view-model.js";
+
 const tabButtons = document.querySelectorAll("[data-tab]");
 const panels = document.querySelectorAll("[data-panel]");
 
@@ -112,52 +114,44 @@ function renderScannerError(message) {
 function renderScannerResult(payload) {
   if (!scannerResult) return;
 
-  if (!payload || payload.error) {
-    renderScannerError(payload?.error?.message || "The scanner rejected the request.");
+  const viewModel = toScannerViewModel(payload);
+
+  if (viewModel.state === "error") {
+    renderScannerError(viewModel.message);
     return;
   }
-
-  const result = payload.result || payload;
-  const isVerified = result.status === "verified";
-  const hardBlocks = result.hardBlocks || [];
-  const facts = result.facts || {};
-  const extensions = facts.extensions || [];
-  const headline = payload.copy?.headline || (isVerified ? "Token standard passed." : "Token standard rejected.");
-  const body =
-    payload.copy?.body ||
-    "This is a technical verification result, not a statement about price, profit, or trading safety.";
 
   setScannerConnection("Connected", "good");
 
   scannerResult.innerHTML = `
-    <div class="scanner-verdict ${isVerified ? "verified" : "rejected"}">
-      <span class="status-pill ${isVerified ? "good" : "danger"}">
-        ${isVerified ? "Verified candidate" : "Rejected"}
+    <div class="scanner-verdict ${viewModel.verdictClass}">
+      <span class="status-pill ${viewModel.statusVariant}">
+        ${viewModel.statusLabel}
       </span>
-      <h3>${escapeHtml(headline)}</h3>
-      <p>${escapeHtml(body)}</p>
+      <h3>${escapeHtml(viewModel.headline)}</h3>
+      <p>${escapeHtml(viewModel.body)}</p>
     </div>
 
     <div class="scanner-facts">
       <article>
         <small>Mint</small>
-        <strong>${escapeHtml(shortAddress(result.mint || result.mintAddress || facts.mint))}</strong>
-        <span>${escapeHtml(result.network || "mainnet-beta")}</span>
+        <strong>${escapeHtml(shortAddress(viewModel.mint))}</strong>
+        <span>${escapeHtml(viewModel.network)}</span>
       </article>
       <article>
         <small>Token program</small>
-        <strong>${escapeHtml(facts.tokenProgram || "unknown")}</strong>
-        <span>${escapeHtml(facts.isToken2022 ? "Token-2022 mint" : "Standard SPL token")}</span>
+        <strong>${escapeHtml(viewModel.tokenProgram)}</strong>
+        <span>${escapeHtml(viewModel.tokenProgramHint)}</span>
       </article>
       <article>
         <small>Mint authority</small>
-        <strong>${facts.mintAuthorityPresent ? "Present" : "Disabled"}</strong>
-        <span>${escapeHtml(shortAddress(facts.mintAuthority))}</span>
+        <strong>${viewModel.mintAuthorityPresent ? "Present" : "Disabled"}</strong>
+        <span>${escapeHtml(shortAddress(viewModel.mintAuthority))}</span>
       </article>
       <article>
         <small>Freeze authority</small>
-        <strong>${facts.freezeAuthorityPresent ? "Present" : "Disabled"}</strong>
-        <span>${escapeHtml(shortAddress(facts.freezeAuthority))}</span>
+        <strong>${viewModel.freezeAuthorityPresent ? "Present" : "Disabled"}</strong>
+        <span>${escapeHtml(shortAddress(viewModel.freezeAuthority))}</span>
       </article>
     </div>
 
@@ -165,16 +159,16 @@ function renderScannerResult(payload) {
       <div>
         <small>Hard-block reasons</small>
         ${
-          hardBlocks.length
-            ? `<ul>${hardBlocks.map((item) => `<li>${escapeHtml(item.label || item.rule || item)}</li>`).join("")}</ul>`
+          viewModel.hardBlockLabels.length
+            ? `<ul>${viewModel.hardBlockLabels.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
             : `<p>No hard-block token controls detected by this scanner pass.</p>`
         }
       </div>
       <div>
         <small>Extensions detected</small>
         ${
-          extensions.length
-            ? `<ul>${extensions.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+          viewModel.extensions.length
+            ? `<ul>${viewModel.extensions.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
             : `<p>No Token-2022 extensions detected.</p>`
         }
       </div>

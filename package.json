@@ -7,7 +7,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "node backend/test/reward-engine.test.js"
+    "test": "node backend/test/reward-engine.test.js && node test/scanner-view-model.test.js"
   },
   "dependencies": {
     "vite": "^7.0.0"
