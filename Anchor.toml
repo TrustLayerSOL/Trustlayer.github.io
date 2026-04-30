@@ -12,6 +12,6 @@ cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "node backend/test/reward-engine.test.js"
+test = "npm test"
 
 [hooks]

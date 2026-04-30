@@ -9,6 +9,7 @@ export const HARD_BLOCKED_EXTENSIONS = new Set([
   "nonTransferable",
   "transferHook",
   "transferFeeConfig",
+  "pausableConfig",
 ]);
 
 export const KNOWN_SAFE_TOKEN_2022_EXTENSIONS = new Set([
@@ -25,7 +26,7 @@ export const KNOWN_SAFE_TOKEN_2022_EXTENSIONS = new Set([
   "groupMemberPointer",
   "tokenGroupMember",
   "scaledUiAmountConfig",
-  "pausableConfig",
+  "defaultAccountState",
 ]);
 
 export const TOKEN_SAFETY_POLICY = {

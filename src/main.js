@@ -35,6 +35,8 @@ const scannerResult = document.querySelector("[data-scanner-result]");
 const scannerConnection = document.querySelector("[data-scanner-connection]");
 const exampleMintButtons = document.querySelectorAll("[data-example-mint]");
 const clearScannerButton = document.querySelector("[data-clear-scanner]");
+let activeScanRequestId = 0;
+let activeScanController = null;
 
 const scannerApiBase =
   window.TRUSTLAYER_SCANNER_API_URL ||
@@ -110,7 +112,7 @@ function renderScannerError(message) {
 function renderScannerResult(payload) {
   if (!scannerResult) return;
 
-  if (!payload?.ok) {
+  if (!payload || payload.error) {
     renderScannerError(payload?.error?.message || "The scanner rejected the request.");
     return;
   }
@@ -185,11 +187,11 @@ function renderScannerResult(payload) {
   `;
 }
 
-async function scanToken(mint, network) {
+async function scanToken(mint, network, signal) {
   const url = new URL(`/api/scanner/token-safety/${mint}`, scannerApiBase);
   url.searchParams.set("network", network);
 
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), { signal });
   const payload = await response.json().catch(() => null);
 
   if (!response.ok) {
@@ -211,11 +213,18 @@ scannerForm?.addEventListener("submit", async (event) => {
   }
 
   renderScannerLoading(mint);
+  activeScanController?.abort();
+  const requestId = activeScanRequestId + 1;
+  activeScanRequestId = requestId;
+  activeScanController = new AbortController();
 
   try {
-    const payload = await scanToken(mint, network);
+    const payload = await scanToken(mint, network, activeScanController.signal);
+    if (requestId !== activeScanRequestId) return;
     renderScannerResult(payload);
   } catch (error) {
+    if (error?.name === "AbortError") return;
+    if (requestId !== activeScanRequestId) return;
     renderScannerError(error instanceof Error ? error.message : "Unknown scanner error.");
   }
 });
@@ -228,6 +237,8 @@ exampleMintButtons.forEach((button) => {
 });
 
 clearScannerButton?.addEventListener("click", () => {
+  activeScanRequestId += 1;
+  activeScanController?.abort();
   if (scannerMint) scannerMint.value = "";
   renderScannerEmpty();
 });

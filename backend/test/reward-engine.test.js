@@ -120,6 +120,11 @@ const blockedSafetyCases = [
     code: "blocked_extension_transferFeeConfig",
   },
   {
+    name: "pausableConfig",
+    facts: { tokenProgram: TOKEN_PROGRAMS.token2022, extensions: ["pausableConfig"] },
+    code: "blocked_extension_pausableConfig",
+  },
+  {
     name: "unknown extension",
     facts: { tokenProgram: TOKEN_PROGRAMS.token2022, extensions: ["mysteryExtension"] },
     code: "unknown_extension_mysteryExtension",
@@ -142,5 +147,13 @@ const knownSafeExtension = evaluateTokenSafety({
 });
 
 assert.equal(knownSafeExtension.ok, true);
+
+const initializedDefaultAccountState = evaluateTokenSafety({
+  tokenProgram: TOKEN_PROGRAMS.token2022,
+  defaultAccountState: "initialized",
+  extensions: ["defaultAccountState"],
+});
+
+assert.equal(initializedDefaultAccountState.ok, true);
 
 console.log("Reward engine tests passed.");
