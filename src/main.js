@@ -37,8 +37,10 @@ const scannerResult = document.querySelector("[data-scanner-result]");
 const scannerConnection = document.querySelector("[data-scanner-connection]");
 const exampleMintButtons = document.querySelectorAll("[data-example-mint]");
 const clearScannerButton = document.querySelector("[data-clear-scanner]");
+const scannerSubmitButton = scannerForm?.querySelector('button[type="submit"]');
 let activeScanRequestId = 0;
 let activeScanController = null;
+let activeScanKey = null;
 
 const scannerApiBase =
   window.TRUSTLAYER_SCANNER_API_URL ||
@@ -66,6 +68,13 @@ function setScannerConnection(label, variant = "watch") {
 
   scannerConnection.className = `status-pill ${variant}`.trim();
   scannerConnection.textContent = label;
+}
+
+function setScannerControlsDisabled(disabled) {
+  if (scannerSubmitButton) scannerSubmitButton.disabled = disabled;
+  exampleMintButtons.forEach((button) => {
+    button.disabled = disabled;
+  });
 }
 
 function renderScannerEmpty() {
@@ -210,11 +219,16 @@ scannerForm?.addEventListener("submit", async (event) => {
     return;
   }
 
+  const scanKey = `${network}:${mint}`;
+  if (activeScanKey === scanKey) return;
+
   renderScannerLoading(mint);
   activeScanController?.abort();
   const requestId = activeScanRequestId + 1;
   activeScanRequestId = requestId;
   activeScanController = new AbortController();
+  activeScanKey = scanKey;
+  setScannerControlsDisabled(true);
 
   try {
     const payload = await scanToken(mint, network, activeScanController.signal);
@@ -224,6 +238,11 @@ scannerForm?.addEventListener("submit", async (event) => {
     if (error?.name === "AbortError") return;
     if (requestId !== activeScanRequestId) return;
     renderScannerError(error instanceof Error ? error.message : "Unknown scanner error.");
+  } finally {
+    if (requestId === activeScanRequestId) {
+      activeScanKey = null;
+      setScannerControlsDisabled(false);
+    }
   }
 });
 
@@ -237,6 +256,8 @@ exampleMintButtons.forEach((button) => {
 clearScannerButton?.addEventListener("click", () => {
   activeScanRequestId += 1;
   activeScanController?.abort();
+  activeScanKey = null;
+  setScannerControlsDisabled(false);
   if (scannerMint) scannerMint.value = "";
   renderScannerEmpty();
 });
