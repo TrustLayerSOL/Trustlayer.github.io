@@ -42,6 +42,7 @@ let activeScanController = null;
 
 const scannerApiBase =
   window.TRUSTLAYER_SCANNER_API_URL ||
+  import.meta.env.VITE_TRUSTLAYER_SCANNER_API_URL ||
   localStorage.getItem("trustlayerScannerApiUrl") ||
   "http://127.0.0.1:8787";
 
