@@ -37,6 +37,7 @@
       </a>
       <nav class="nav" aria-label="Main navigation">
         <a href="#dashboard">Dashboard</a>
+        <a href="#receipts">Receipts</a>
         <a href="#scanner">Scanner</a>
         <a href="#fleet">Fleet</a>
         <a href="#verification">Trust tiers</a>
@@ -268,9 +269,108 @@
         </div>
       </section>
 
+      <section class="section" id="receipts">
+        <div class="section-heading">
+          <span>[02 / receipts]</span>
+          <h2>Every cycle should leave a receipt.</h2>
+          <p>
+            The proof page turns routed fees into a public manifest: fee inflow, holder payouts,
+            protection reserve, platform fee, formula inputs, and the manifest hash in one place.
+          </p>
+        </div>
+
+        <div class="receipt-proof-shell" data-receipt-proof>
+          <div class="receipt-proof-hero">
+            <div>
+              <small>$RECEIPTS proof page</small>
+              <h3 data-receipt-project>$RECEIPTS demo</h3>
+              <p data-receipt-body>
+                Loading the public payout manifest.
+              </p>
+            </div>
+            <div class="receipt-proof-actions">
+              <span class="status-pill watch" data-receipt-status>Loading</span>
+              <a
+                class="secondary-action"
+                href="/data/receipts-demo-manifest.json"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open raw JSON
+              </a>
+            </div>
+          </div>
+
+          <div class="receipt-proof-metrics" data-receipt-metrics>
+            <article>
+              <small>Fee inflow</small>
+              <strong>pending</strong>
+              <span>cycle total</span>
+            </article>
+            <article>
+              <small>Holder rewards</small>
+              <strong>pending</strong>
+              <span>paid by weight</span>
+            </article>
+            <article>
+              <small>Protection reserve</small>
+              <strong>pending</strong>
+              <span>reserved by split</span>
+            </article>
+            <article>
+              <small>Platform fee</small>
+              <strong>pending</strong>
+              <span>TrustLayer revenue</span>
+            </article>
+          </div>
+
+          <div class="receipt-proof-grid">
+            <article class="receipt-card" data-receipt-hash>
+              <small>Manifest hash</small>
+              <strong>pending</strong>
+              <span>public cycle receipt</span>
+            </article>
+            <article class="receipt-card" data-receipt-route>
+              <small>Fee route</small>
+              <strong>pending</strong>
+              <span>route evidence pending</span>
+            </article>
+            <article class="receipt-card" data-receipt-formula>
+              <small>Formula</small>
+              <strong>pending</strong>
+              <span>balance x time weighting</span>
+            </article>
+          </div>
+
+          <div class="receipt-table-wrap">
+            <div class="receipt-table-heading">
+              <div>
+                <small>Recipient proof rows</small>
+                <h3>Wallet-level payout accounting.</h3>
+              </div>
+              <span data-receipt-summary>Awaiting manifest</span>
+            </div>
+            <div class="receipt-table" data-receipt-table>
+              <div class="receipt-row receipt-head">
+                <span>Wallet</span>
+                <span>Hold time</span>
+                <span>Multiplier</span>
+                <span>Payout</span>
+                <span>Status</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="scanner-disclaimer" data-receipt-disclaimer>
+            TrustLayer verifies specific technical and operational requirements. It does not
+            guarantee price, profit, liquidity, reimbursement, or investment safety.
+          </p>
+        </div>
+      </section>
+
       <section class="section" id="scanner">
         <div class="section-heading">
-          <span>[02 / scanner]</span>
+          <span>[03 / scanner]</span>
           <h2>Scan the token before the badge goes live.</h2>
           <p>
             TrustLayer verification starts with the mint itself. The scanner rejects hidden token
@@ -342,7 +442,7 @@
 
       <section class="section" id="fleet">
         <div class="section-heading">
-          <span>[03 / fleet]</span>
+          <span>[04 / fleet]</span>
           <h2>A public board for every token using the standard.</h2>
           <p>
             The directory is the social proof layer: traders can scan which projects are funded,
@@ -390,7 +490,7 @@
 
       <section class="section split" id="verification">
         <div class="section-heading compact">
-          <span>[04 / verification]</span>
+          <span>[05 / verification]</span>
           <h2>The badge has to mean something.</h2>
           <p>
             TrustLayer should never be a logo anyone can rent forever. Verification is live,
@@ -423,7 +523,7 @@
 
       <section class="section split" id="mechanics">
         <div class="section-heading compact">
-          <span>[05 / mechanics]</span>
+          <span>[06 / mechanics]</span>
           <h2>Built so incentives are visible.</h2>
           <p>
             The first contract does not need to replace pump.fun. It makes the fee flow auditable
@@ -456,7 +556,7 @@
 
       <section class="section" id="onboard">
         <div class="section-heading">
-          <span>[06 / board]</span>
+          <span>[07 / board]</span>
           <h2>Free to start. TrustLayer earns from real activity.</h2>
           <p>
             Early projects can apply for no-upfront-cost onboarding. Platform fees come from routed inflows,
@@ -515,7 +615,7 @@
 
       <section class="section status-section" id="status">
         <div>
-          <span>[07 / status]</span>
+          <span>[08 / status]</span>
           <h2>Current build status</h2>
         </div>
         <div class="status-board">

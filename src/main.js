@@ -1,4 +1,5 @@
 import { toFeeRoutingViewModel } from "./fee-routing-view-model.js";
+import { toReceiptProofViewModel } from "./receipt-proof-view-model.js";
 import { toScannerViewModel } from "./scanner-view-model.js";
 
 const tabButtons = document.querySelectorAll("[data-tab]");
@@ -40,6 +41,16 @@ const scannerConnection = document.querySelector("[data-scanner-connection]");
 const exampleMintButtons = document.querySelectorAll("[data-example-mint]");
 const clearScannerButton = document.querySelector("[data-clear-scanner]");
 const scannerSubmitButton = scannerForm?.querySelector('button[type="submit"]');
+const receiptProject = document.querySelector("[data-receipt-project]");
+const receiptBody = document.querySelector("[data-receipt-body]");
+const receiptStatus = document.querySelector("[data-receipt-status]");
+const receiptMetrics = document.querySelector("[data-receipt-metrics]");
+const receiptHash = document.querySelector("[data-receipt-hash]");
+const receiptRoute = document.querySelector("[data-receipt-route]");
+const receiptFormula = document.querySelector("[data-receipt-formula]");
+const receiptSummary = document.querySelector("[data-receipt-summary]");
+const receiptTable = document.querySelector("[data-receipt-table]");
+const receiptDisclaimer = document.querySelector("[data-receipt-disclaimer]");
 let activeScanRequestId = 0;
 let activeScanController = null;
 let activeScanKey = null;
@@ -63,6 +74,127 @@ function escapeHtml(value) {
 function shortAddress(value) {
   if (!value || value.length < 12) return value || "none";
   return `${value.slice(0, 4)}...${value.slice(-4)}`;
+}
+
+function renderReceiptProof(viewModel) {
+  if (!receiptProject || !receiptBody || !receiptStatus) return;
+
+  receiptStatus.className = `status-pill ${viewModel.status.variant}`.trim();
+  receiptStatus.textContent = viewModel.status.label;
+
+  if (viewModel.state !== "ready") {
+    receiptProject.textContent = viewModel.headline;
+    receiptBody.textContent = viewModel.body;
+    return;
+  }
+
+  receiptProject.textContent = viewModel.projectLabel;
+  receiptBody.textContent = `${viewModel.cycleId} on ${viewModel.network}. Snapshot slot ${viewModel.snapshotSlot}.`;
+
+  if (receiptMetrics) {
+    receiptMetrics.innerHTML = `
+      <article>
+        <small>Fee inflow</small>
+        <strong>${escapeHtml(viewModel.metrics.feeInflow)}</strong>
+        <span>cycle total</span>
+      </article>
+      <article>
+        <small>Holder rewards</small>
+        <strong>${escapeHtml(viewModel.metrics.holderRewards)}</strong>
+        <span>${escapeHtml(viewModel.splitLabels.holderRewards)} of inflow</span>
+      </article>
+      <article>
+        <small>Protection reserve</small>
+        <strong>${escapeHtml(viewModel.metrics.protectionReserve)}</strong>
+        <span>${escapeHtml(viewModel.splitLabels.protectionReserve)} of inflow</span>
+      </article>
+      <article>
+        <small>Platform fee</small>
+        <strong>${escapeHtml(viewModel.metrics.platformFee)}</strong>
+        <span>${escapeHtml(viewModel.splitLabels.platformFee)} of inflow</span>
+      </article>
+    `;
+  }
+
+  if (receiptHash) {
+    receiptHash.innerHTML = `
+      <small>Manifest hash</small>
+      <strong>${escapeHtml(viewModel.hash.short)}</strong>
+      <span>${escapeHtml(viewModel.manifestVersion)} / generated ${escapeHtml(viewModel.generatedAt)}</span>
+    `;
+  }
+
+  if (receiptRoute) {
+    receiptRoute.innerHTML = `
+      <small>Fee route</small>
+      <strong>${escapeHtml(viewModel.routing.status)}</strong>
+      <span>${escapeHtml(viewModel.routing.integration)} / ${escapeHtml(viewModel.routing.allocation)}</span>
+    `;
+  }
+
+  if (receiptFormula) {
+    receiptFormula.innerHTML = `
+      <small>Formula</small>
+      <strong>${escapeHtml(viewModel.formula.version)}</strong>
+      <span>minimum hold ${escapeHtml(viewModel.formula.minimumHold)}</span>
+    `;
+  }
+
+  if (receiptSummary) {
+    receiptSummary.textContent = `${viewModel.payableRecipientCount} payable / ${viewModel.excludedRecipientCount} excluded`;
+  }
+
+  if (receiptTable) {
+    receiptTable.innerHTML = `
+      <div class="receipt-row receipt-head">
+        <span>Wallet</span>
+        <span>Hold time</span>
+        <span>Multiplier</span>
+        <span>Payout</span>
+        <span>Status</span>
+      </div>
+      ${viewModel.recipients
+        .map(
+          (recipient) => `
+            <div class="receipt-row">
+              <span>${escapeHtml(recipient.wallet)}</span>
+              <span>${escapeHtml(recipient.holdTime)}</span>
+              <span>${escapeHtml(recipient.multiplier)}</span>
+              <span>${escapeHtml(recipient.payout)}</span>
+              <span>${recipient.excludedReason ? escapeHtml(recipient.excludedReason) : "Payable"}</span>
+            </div>
+          `,
+        )
+        .join("")}
+    `;
+  }
+
+  if (receiptDisclaimer) {
+    receiptDisclaimer.textContent = viewModel.disclaimer;
+  }
+}
+
+async function loadReceiptProof() {
+  renderReceiptProof(toReceiptProofViewModel(null));
+
+  try {
+    const response = await fetch("/data/receipts-demo-manifest.json");
+    const manifest = await response.json();
+    if (!response.ok) {
+      throw new Error(`Manifest returned HTTP ${response.status}.`);
+    }
+    renderReceiptProof(toReceiptProofViewModel(manifest));
+  } catch (error) {
+    renderReceiptProof({
+      state: "empty",
+      status: {
+        label: "Manifest unavailable",
+        variant: "danger",
+      },
+      headline: "Could not load the proof manifest.",
+      body: error instanceof Error ? error.message : "Unknown manifest loading error.",
+    });
+  }
 }
 
 function setScannerConnection(label, variant = "watch") {
@@ -398,3 +530,5 @@ clearScannerButton?.addEventListener("click", () => {
   if (scannerMint) scannerMint.value = "";
   renderScannerEmpty();
 });
+
+loadReceiptProof();

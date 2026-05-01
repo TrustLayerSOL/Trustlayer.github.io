@@ -1,0 +1,131 @@
+{
+  "manifestVersion": "trustlayer-payout-v1",
+  "projectId": "receipts-demo",
+  "tokenMint": "ReceiptsMint111111111111111111111111111111111",
+  "vaultAddress": "TrustVault1111111111111111111111111111111111",
+  "network": "mainnet-beta",
+  "cycleId": "receipts-cycle-001",
+  "cycleStartedAt": "2026-05-01T12:00:00.000Z",
+  "cycleEndedAt": "2026-05-01T18:00:00.000Z",
+  "generatedAt": "2026-05-01T18:02:00.000Z",
+  "snapshot": {
+    "slot": 337420512,
+    "takenAt": "2026-05-01T18:00:00.000Z",
+    "source": "trustlayer-demo-indexer",
+    "holderCount": 7
+  },
+  "feeRouting": {
+    "integration": "pumpfun-fee-share",
+    "status": "locked",
+    "checkedAt": "2026-05-01T18:01:00.000Z",
+    "feeRecipient": "Du1WSkrW7WX5ZwADx5fyJ4rhhcJBSSS8xnFq6APLuLSN",
+    "allocationBps": 1000,
+    "evidenceAccount": "RouteEvidence111111111111111111111111111111"
+  },
+  "formula": {
+    "version": "avg-balance-time-v1",
+    "minimumHoldSeconds": 3600,
+    "minimumAverageBalanceRaw": "10000",
+    "multipliers": [
+      {
+        "minSeconds": 604800,
+        "multiplierBps": 30000
+      },
+      {
+        "minSeconds": 259200,
+        "multiplierBps": 20000
+      },
+      {
+        "minSeconds": 86400,
+        "multiplierBps": 15000
+      },
+      {
+        "minSeconds": 21600,
+        "multiplierBps": 12500
+      },
+      {
+        "minSeconds": 3600,
+        "multiplierBps": 10000
+      }
+    ]
+  },
+  "splitBps": {
+    "holderRewards": 7000,
+    "protectionReserve": 2000,
+    "projectTreasury": 0,
+    "platformFee": 1000
+  },
+  "inputTotals": {
+    "feeInflowLamports": "18420000000",
+    "rewardPoolLamports": "12894000000",
+    "protectionReserveLamports": "3684000000",
+    "projectTreasuryLamports": "0",
+    "platformFeeLamports": "1842000000"
+  },
+  "recipients": [
+    {
+      "wallet": "7Qb111111111111111111111111111111111119k2",
+      "averageBalanceRaw": "1820000",
+      "heldSeconds": 691200,
+      "multiplierBps": 30000,
+      "weightRaw": "54600000000",
+      "excludedReason": null,
+      "payoutLamports": "6805339778"
+    },
+    {
+      "wallet": "A1p11111111111111111111111111111111111Lx8",
+      "averageBalanceRaw": "1420000",
+      "heldSeconds": 345600,
+      "multiplierBps": 20000,
+      "weightRaw": "28400000000",
+      "excludedReason": null,
+      "payoutLamports": "3539773804"
+    },
+    {
+      "wallet": "Hn411111111111111111111111111111111110Pa",
+      "averageBalanceRaw": "980000",
+      "heldSeconds": 108000,
+      "multiplierBps": 15000,
+      "weightRaw": "14700000000",
+      "excludedReason": null,
+      "payoutLamports": "1832206863"
+    },
+    {
+      "wallet": "3Tb11111111111111111111111111111111111Vz3",
+      "averageBalanceRaw": "460000",
+      "heldSeconds": 43200,
+      "multiplierBps": 12500,
+      "weightRaw": "5750000000",
+      "excludedReason": null,
+      "payoutLamports": "716679555"
+    },
+    {
+      "wallet": "Team1111111111111111111111111111111111001",
+      "averageBalanceRaw": "3000000",
+      "heldSeconds": 777600,
+      "multiplierBps": 0,
+      "weightRaw": "0",
+      "excludedReason": "team_wallet",
+      "payoutLamports": "0"
+    },
+    {
+      "wallet": "New1111111111111111111111111111111111Bot",
+      "averageBalanceRaw": "700000",
+      "heldSeconds": 1080,
+      "multiplierBps": 0,
+      "weightRaw": "0",
+      "excludedReason": "below_minimum_hold_time",
+      "payoutLamports": "0"
+    },
+    {
+      "wallet": "Dust111111111111111111111111111111111177",
+      "averageBalanceRaw": "2500",
+      "heldSeconds": 604800,
+      "multiplierBps": 0,
+      "weightRaw": "0",
+      "excludedReason": "below_minimum_average_balance",
+      "payoutLamports": "0"
+    }
+  ],
+  "manifestHash": "aeeab816434ba8df78975af002ebd6b05bd55eda230689c5a40fe635d5dc0b28"
+}
