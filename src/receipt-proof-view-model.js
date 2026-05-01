@@ -8,7 +8,12 @@ const EXCLUDED_REASON_LABELS = {
 };
 
 export function toReceiptProofViewModel(manifest) {
-  if (!manifest) {
+  const payload = manifest;
+  const manifestSource = payload?.manifest || payload;
+  const verification = payload?.verification;
+  const copy = payload?.copy;
+
+  if (!manifestSource) {
     return {
       state: "empty",
       status: {
@@ -20,6 +25,7 @@ export function toReceiptProofViewModel(manifest) {
     };
   }
 
+  manifest = manifestSource;
   const recipients = Array.isArray(manifest.recipients) ? manifest.recipients : [];
   const payableRecipients = recipients.filter((recipient) => BigInt(recipient.payoutLamports || "0") > 0n);
   const excludedRecipients = recipients.filter((recipient) => recipient.excludedReason);
@@ -28,8 +34,8 @@ export function toReceiptProofViewModel(manifest) {
     state: "ready",
     projectLabel: manifest.projectId === "receipts-demo" ? "$RECEIPTS demo" : manifest.projectId,
     status: {
-      label: "Proof manifest",
-      variant: manifest.manifestVersion === "trustlayer-payout-v1" ? "good" : "watch",
+      label: verification?.ok ? "Verified proof manifest" : "Proof manifest",
+      variant: manifest.manifestVersion === "trustlayer-payout-v1" && verification?.ok !== false ? "good" : "watch",
     },
     cycleId: manifest.cycleId,
     network: manifest.network || "mainnet-beta",
@@ -72,6 +78,7 @@ export function toReceiptProofViewModel(manifest) {
     },
     manifestVersion: manifest.manifestVersion,
     disclaimer:
+      copy?.disclaimer ||
       "This manifest is a public accounting receipt. It does not guarantee project behavior, market price, liquidity, rewards, or protection outcomes.",
   };
 }

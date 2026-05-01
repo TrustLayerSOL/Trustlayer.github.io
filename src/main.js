@@ -1,4 +1,5 @@
 import { toFeeRoutingViewModel } from "./fee-routing-view-model.js";
+import { loadReceiptManifest } from "./receipt-proof-loader.js";
 import { toReceiptProofViewModel } from "./receipt-proof-view-model.js";
 import { toScannerViewModel } from "./scanner-view-model.js";
 
@@ -178,12 +179,12 @@ async function loadReceiptProof() {
   renderReceiptProof(toReceiptProofViewModel(null));
 
   try {
-    const response = await fetch("/data/receipts-demo-manifest.json");
-    const manifest = await response.json();
-    if (!response.ok) {
-      throw new Error(`Manifest returned HTTP ${response.status}.`);
-    }
-    renderReceiptProof(toReceiptProofViewModel(manifest));
+    const result = await loadReceiptManifest({
+      apiBase: scannerApiBase,
+      projectId: "receipts-demo",
+      fallbackPath: "/data/receipts-demo-manifest.json",
+    });
+    renderReceiptProof(toReceiptProofViewModel(result.payload));
   } catch (error) {
     renderReceiptProof({
       state: "empty",

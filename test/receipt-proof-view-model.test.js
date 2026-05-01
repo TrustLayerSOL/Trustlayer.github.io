@@ -100,4 +100,20 @@ const unavailable = toReceiptProofViewModel(null);
 assert.equal(unavailable.state, "empty");
 assert.equal(unavailable.status.variant, "watch");
 
+const fromApiEnvelope = toReceiptProofViewModel({
+  ok: true,
+  manifest,
+  verification: {
+    ok: true,
+  },
+  copy: {
+    disclaimer: "This verifies public payout accounting only.",
+  },
+});
+
+assert.equal(fromApiEnvelope.state, "ready");
+assert.equal(fromApiEnvelope.cycleId, "receipts-cycle-001");
+assert.equal(fromApiEnvelope.status.label, "Verified proof manifest");
+assert.match(fromApiEnvelope.disclaimer, /payout accounting/i);
+
 console.log("Receipt proof view-model tests passed.");
