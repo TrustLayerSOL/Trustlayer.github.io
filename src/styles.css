@@ -654,6 +654,11 @@ small {
   padding: clamp(22px, 4vw, 34px);
 }
 
+.scanner-output-stack {
+  display: grid;
+  gap: 16px;
+}
+
 .scanner-header {
   display: flex;
   gap: 16px;
@@ -739,6 +744,10 @@ small {
   min-height: 360px;
 }
 
+.fee-routing-result {
+  min-height: 0;
+}
+
 .scanner-empty p,
 .scanner-verdict p,
 .scanner-detail-grid p,
@@ -761,10 +770,18 @@ small {
   color: #b94e3f;
 }
 
+.scanner-verdict.pending h3 {
+  color: var(--ink);
+}
+
 .scanner-facts {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+}
+
+.fee-routing-facts strong {
+  font-size: 15px;
 }
 
 .scanner-facts article {

@@ -316,13 +316,25 @@
             </div>
           </div>
 
-          <div class="scanner-result" data-scanner-result>
-            <div class="scanner-empty">
-              <span class="status-pill">Awaiting scan</span>
-              <h3>No mint checked yet.</h3>
-              <p>
-                Paste a mint address to check it against the hosted TrustLayer scanner API.
-              </p>
+          <div class="scanner-output-stack">
+            <div class="scanner-result" data-scanner-result>
+              <div class="scanner-empty">
+                <span class="status-pill">Awaiting scan</span>
+                <h3>No mint checked yet.</h3>
+                <p>
+                  Paste a mint address to check it against the hosted TrustLayer scanner API.
+                </p>
+              </div>
+            </div>
+
+            <div class="scanner-result fee-routing-result" data-fee-routing-result>
+              <div class="scanner-empty">
+                <span class="status-pill">Awaiting route check</span>
+                <h3>Fee routing not checked yet.</h3>
+                <p>
+                  Run a mint scan to check the Pump.fun fee-sharing route status for the same token.
+                </p>
+              </div>
             </div>
           </div>
         </div>
