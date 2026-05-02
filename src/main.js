@@ -1,6 +1,7 @@
 import { toFeeRoutingViewModel } from "./fee-routing-view-model.js";
 import { loadReceiptManifest } from "./receipt-proof-loader.js";
 import { toReceiptProofViewModel } from "./receipt-proof-view-model.js";
+import { fetchScannerPayload } from "./scanner-client.js";
 import { toScannerViewModel } from "./scanner-view-model.js";
 
 const tabButtons = document.querySelectorAll("[data-tab]");
@@ -244,12 +245,28 @@ function renderScannerLoading(mint) {
 }
 
 function renderScannerError(message) {
+  renderScannerStatus({
+    label: "Scanner unavailable",
+    heading: "Could not complete the scan.",
+    message,
+    connectionLabel: "Offline",
+    connectionVariant: "danger",
+  });
+}
+
+function renderScannerStatus({
+  label,
+  heading,
+  message,
+  connectionLabel = "Offline",
+  connectionVariant = "danger",
+}) {
   if (!scannerResult) return;
 
   scannerResult.innerHTML = `
     <div class="scanner-empty">
-      <span class="status-pill danger">Scanner unavailable</span>
-      <h3>Could not complete the scan.</h3>
+      <span class="status-pill ${escapeHtml(connectionVariant)}">${escapeHtml(label)}</span>
+      <h3>${escapeHtml(heading)}</h3>
       <p>${escapeHtml(message)}</p>
       <p>
         ${isLocalScannerApi
@@ -258,7 +275,7 @@ function renderScannerError(message) {
       </p>
     </div>
   `;
-  setScannerConnection("Offline", "danger");
+  setScannerConnection(connectionLabel, connectionVariant);
 }
 
 function renderScannerResult(payload) {
@@ -267,7 +284,13 @@ function renderScannerResult(payload) {
   const viewModel = toScannerViewModel(payload);
 
   if (viewModel.state === "error") {
-    renderScannerError(viewModel.message);
+    renderScannerStatus({
+      label: viewModel.statusLabel || "Request rejected",
+      heading: viewModel.statusLabel === "Scanner unavailable" ? "Could not complete the scan." : "Scanner request rejected.",
+      message: viewModel.message,
+      connectionLabel: viewModel.connectionLabel || "Connected",
+      connectionVariant: viewModel.connectionVariant || "watch",
+    });
     return;
   }
 
@@ -431,17 +454,12 @@ function renderFeeRoutingResult(payload) {
 }
 
 async function scanToken(mint, network, signal) {
-  const url = new URL(`/api/scanner/token-safety/${mint}`, scannerApiBase);
-  url.searchParams.set("network", network);
-
-  const response = await fetch(url.toString(), { signal });
-  const payload = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    throw new Error(payload?.error?.message || `Scanner returned HTTP ${response.status}.`);
-  }
-
-  return payload;
+  return fetchScannerPayload({
+    scannerApiBase,
+    mint,
+    network,
+    signal,
+  });
 }
 
 async function checkFeeRouting(mint, network, signal) {

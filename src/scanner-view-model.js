@@ -1,8 +1,12 @@
 export function toScannerViewModel(payload) {
   if (!payload || payload.error) {
+    const retryable = payload?.error?.retryable === true;
     return {
       state: "error",
       message: payload?.error?.message || "The scanner rejected the request.",
+      statusLabel: retryable ? "Scanner unavailable" : "Request rejected",
+      connectionLabel: retryable ? "Offline" : "Connected",
+      connectionVariant: retryable ? "danger" : "watch",
     };
   }
 

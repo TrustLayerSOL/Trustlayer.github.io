@@ -7,7 +7,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "node test/scanner-view-model.test.js && node test/fee-routing-view-model.test.js && node test/receipt-proof-view-model.test.js && node test/receipt-proof-loader.test.js"
+    "test": "node test/scanner-client.test.js && node test/scanner-view-model.test.js && node test/fee-routing-view-model.test.js && node test/receipt-proof-view-model.test.js && node test/receipt-proof-loader.test.js"
   },
   "dependencies": {
     "vite": "^7.0.0"

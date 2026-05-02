@@ -78,5 +78,22 @@ const error = toScannerViewModel({
 
 assert.equal(error.state, "error");
 assert.equal(error.message, "Enter a valid Solana mint address.");
+assert.equal(error.statusLabel, "Request rejected");
+assert.equal(error.connectionLabel, "Connected");
+
+const retryableError = toScannerViewModel({
+  ok: false,
+  contractVersion: "2026-04-30",
+  status: "rpc_unavailable",
+  error: {
+    code: "rpc_unavailable",
+    message: "Scanner temporarily unavailable.",
+    retryable: true,
+  },
+});
+
+assert.equal(retryableError.state, "error");
+assert.equal(retryableError.statusLabel, "Scanner unavailable");
+assert.equal(retryableError.connectionLabel, "Offline");
 
 console.log("Scanner view-model tests passed.");
