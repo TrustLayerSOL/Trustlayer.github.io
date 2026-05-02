@@ -3,6 +3,7 @@ import { loadReceiptManifest } from "./receipt-proof-loader.js";
 import { toReceiptProofViewModel } from "./receipt-proof-view-model.js";
 import { fetchScannerPayload } from "./scanner-client.js";
 import { toScannerViewModel } from "./scanner-view-model.js";
+import { extractSolanaAddressInput } from "./solana-address-input.js";
 
 const tabButtons = document.querySelectorAll("[data-tab]");
 const panels = document.querySelectorAll("[data-panel]");
@@ -258,6 +259,8 @@ function renderScannerStatus({
   label,
   heading,
   message,
+  helpText,
+  errorCode,
   connectionLabel = "Offline",
   connectionVariant = "danger",
 }) {
@@ -268,10 +271,15 @@ function renderScannerStatus({
       <span class="status-pill ${escapeHtml(connectionVariant)}">${escapeHtml(label)}</span>
       <h3>${escapeHtml(heading)}</h3>
       <p>${escapeHtml(message)}</p>
+      ${errorCode ? `<p><small>Error code: ${escapeHtml(errorCode)}</small></p>` : ""}
       <p>
-        ${isLocalScannerApi
-          ? `Local testing requires <code>npm run scanner:serve</code> in <code>trustlayer-core</code>.`
-          : "The hosted scanner API did not return a usable response. Try again shortly."}
+        ${
+          helpText
+            ? escapeHtml(helpText)
+            : isLocalScannerApi
+              ? `Local testing requires <code>npm run scanner:serve</code> in <code>trustlayer-core</code>.`
+              : "The hosted scanner API did not return a usable response. Try again shortly."
+        }
       </p>
     </div>
   `;
@@ -288,6 +296,8 @@ function renderScannerResult(payload) {
       label: viewModel.statusLabel || "Request rejected",
       heading: viewModel.statusLabel === "Scanner unavailable" ? "Could not complete the scan." : "Scanner request rejected.",
       message: viewModel.message,
+      helpText: viewModel.helpText,
+      errorCode: viewModel.errorCode,
       connectionLabel: viewModel.connectionLabel || "Connected",
       connectionVariant: viewModel.connectionVariant || "watch",
     });
@@ -479,12 +489,25 @@ async function checkFeeRouting(mint, network, signal) {
 scannerForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const mint = scannerMint?.value.trim();
+  const rawMintInput = scannerMint?.value || "";
+  const mint = extractSolanaAddressInput(rawMintInput);
   const network = scannerNetwork?.value || "mainnet-beta";
 
   if (!mint) {
-    renderScannerError("Paste a Solana mint address before scanning.");
+    renderScannerStatus({
+      label: "Request rejected",
+      heading: "Scanner request rejected.",
+      message: "Paste a Solana mint address before scanning.",
+      helpText: "Use the token mint / CA. The scanner can also extract a mint from common token links.",
+      errorCode: "missing_mint",
+      connectionLabel: isLocalScannerApi ? "Local API" : "Hosted API",
+      connectionVariant: "watch",
+    });
     return;
+  }
+
+  if (scannerMint && scannerMint.value !== mint) {
+    scannerMint.value = mint;
   }
 
   const scanKey = `${network}:${mint}`;

@@ -78,8 +78,13 @@ const error = toScannerViewModel({
 
 assert.equal(error.state, "error");
 assert.equal(error.message, "Enter a valid Solana mint address.");
+assert.equal(error.errorCode, "invalid_mint");
 assert.equal(error.statusLabel, "Request rejected");
 assert.equal(error.connectionLabel, "Connected");
+assert.equal(
+  error.helpText,
+  "Check the mint address and try again. If you pasted a link, TrustLayer will use the first Solana-style address it finds.",
+);
 
 const retryableError = toScannerViewModel({
   ok: false,
@@ -95,5 +100,9 @@ const retryableError = toScannerViewModel({
 assert.equal(retryableError.state, "error");
 assert.equal(retryableError.statusLabel, "Scanner unavailable");
 assert.equal(retryableError.connectionLabel, "Offline");
+assert.equal(
+  retryableError.helpText,
+  "The hosted scanner API did not return a usable response. Try again shortly.",
+);
 
 console.log("Scanner view-model tests passed.");

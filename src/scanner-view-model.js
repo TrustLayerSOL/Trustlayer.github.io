@@ -4,9 +4,13 @@ export function toScannerViewModel(payload) {
     return {
       state: "error",
       message: payload?.error?.message || "The scanner rejected the request.",
+      errorCode: payload?.error?.code || payload?.status,
       statusLabel: retryable ? "Scanner unavailable" : "Request rejected",
       connectionLabel: retryable ? "Offline" : "Connected",
       connectionVariant: retryable ? "danger" : "watch",
+      helpText: retryable
+        ? "The hosted scanner API did not return a usable response. Try again shortly."
+        : "Check the mint address and try again. If you pasted a link, TrustLayer will use the first Solana-style address it finds.",
     };
   }
 
