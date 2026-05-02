@@ -23,6 +23,9 @@ export function toScannerViewModel(payload) {
   return {
     state: "result",
     isVerified,
+    scanId: payload.scanId || result.scanId,
+    scanStatus: payload.status || result.status,
+    checkedAt: payload.checkedAt || result.checkedAt || facts.checkedAt,
     statusLabel: isVerified ? "Verified candidate" : "Rejected",
     statusVariant: isVerified ? "good" : "danger",
     verdictClass: isVerified ? "verified" : "rejected",

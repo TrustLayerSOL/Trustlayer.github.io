@@ -33,6 +33,8 @@ const rejectedPayload = {
   ok: false,
   contractVersion: "2026-04-30",
   status: "rejected",
+  scanId: "scan_rejected_test",
+  checkedAt: "2026-05-02T04:05:00.000Z",
   mint: "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
   network: "devnet",
   copy: {
@@ -60,6 +62,9 @@ assert.equal(rejected.state, "result");
 assert.equal(rejected.isVerified, false);
 assert.equal(rejected.statusLabel, "Rejected");
 assert.equal(rejected.statusVariant, "danger");
+assert.equal(rejected.scanId, "scan_rejected_test");
+assert.equal(rejected.scanStatus, "rejected");
+assert.equal(rejected.checkedAt, "2026-05-02T04:05:00.000Z");
 assert.equal(rejected.tokenProgramHint, "Token-2022 mint");
 assert.equal(rejected.freezeAuthorityPresent, true);
 assert.deepEqual(rejected.hardBlockLabels, ["Blocked extension: permanentDelegate"]);

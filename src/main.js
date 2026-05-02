@@ -317,6 +317,11 @@ function renderScannerResult(payload) {
 
     <div class="scanner-facts">
       <article>
+        <small>Scan status</small>
+        <strong>${escapeHtml(viewModel.scanStatus || (viewModel.isVerified ? "verified" : "rejected"))}</strong>
+        <span>${escapeHtml(viewModel.scanId || "no scan id")}</span>
+      </article>
+      <article>
         <small>Mint</small>
         <strong>${escapeHtml(shortAddress(viewModel.mint))}</strong>
         <span>${escapeHtml(viewModel.network)}</span>
