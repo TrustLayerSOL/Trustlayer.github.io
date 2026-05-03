@@ -39,16 +39,22 @@ assert.equal(parserPending.routeAddress, "Route111111111111111111111111111111111
 
 const locked = toFeeRoutingViewModel({
   ok: true,
-  result: {
-    status: "locked",
-    expectedRecipient: "TrustLayerFee111111111111111111111111111111",
-    actual: {
-      allocationBps: 250,
-      authorityStatus: "revoked",
+  status: "locked",
+  network: "mainnet-beta",
+  mint: "So11111111111111111111111111111111111111112",
+  integration: "pumpfun-fee-share",
+  facts: {
+    feeRecipient: "TrustLayerFee111111111111111111111111111111",
+    allocationBps: 10000,
+    configAuthorityStatus: "revoked",
+    evidence: {
+      account: "Route1111111111111111111111111111111111111",
     },
+  },
+  evaluation: {
     checks: [
-      { label: "Recipient matches", passed: true },
-      { label: "Authority revoked", passed: true },
+      { label: "Recipient matches", passed: true, code: "fee_recipient_matches" },
+      { label: "Authority revoked", passed: true, code: "fee_routing_immutable" },
     ],
   },
 });
@@ -56,7 +62,8 @@ const locked = toFeeRoutingViewModel({
 assert.equal(locked.label, "Routing locked");
 assert.equal(locked.variant, "good");
 assert.equal(locked.expectedRecipient, "TrustLayerFee111111111111111111111111111111");
-assert.equal(locked.allocationBps, 250);
+assert.equal(locked.routeAddress, "Route1111111111111111111111111111111111111");
+assert.equal(locked.allocationBps, 10000);
 assert.equal(locked.authorityStatus, "revoked");
 assert.equal(locked.checks.length, 2);
 

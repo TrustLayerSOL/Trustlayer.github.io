@@ -1,4 +1,5 @@
 use anchor_lang::prelude::*;
+use crate::program::TrustlayerVault;
 use anchor_lang::solana_program::{
     hash::hashv,
     program::invoke,
@@ -18,6 +19,7 @@ pub mod trustlayer_vault {
 
     pub fn initialize_protocol(ctx: Context<InitializeProtocol>, args: InitializeProtocolArgs) -> Result<()> {
         require!(args.fee_change_timelock_seconds >= MIN_LOCK_SECONDS, TrustLayerError::TimelockTooShort);
+        require_keys_eq!(args.admin, ctx.accounts.upgrade_authority.key(), TrustLayerError::UnauthorizedInitializer);
 
         let config = &mut ctx.accounts.protocol_config;
         config.admin = args.admin;
@@ -225,6 +227,7 @@ pub mod trustlayer_vault {
         require!(!round.cancelled, TrustLayerError::PayoutRoundCancelled);
         require!(now >= round.claim_start && now <= round.claim_end, TrustLayerError::ClaimWindowClosed);
         require!(amount > 0, TrustLayerError::InvalidAmount);
+        checked_claim_total(round.claimed_amount, amount, round.total_amount)?;
 
         let leaf = payout_leaf(ctx.accounts.claimant.key(), amount);
         require!(verify_merkle_proof(leaf, proof, round.merkle_root), TrustLayerError::InvalidMerkleProof);
@@ -247,7 +250,7 @@ pub mod trustlayer_vault {
             signer_seeds,
         )?;
 
-        round.claimed_amount = checked_add(round.claimed_amount, amount)?;
+        round.claimed_amount = checked_claim_total(round.claimed_amount, amount, round.total_amount)?;
         ctx.accounts.vault_accounting.total_distributed = checked_add(ctx.accounts.vault_accounting.total_distributed, amount)?;
 
         let receipt = &mut ctx.accounts.claim_receipt;
@@ -300,6 +303,11 @@ pub struct InitializeProtocol<'info> {
         bump
     )]
     pub protocol_config: Account<'info, ProtocolConfig>,
+    #[account(constraint = program.programdata_address()? == Some(program_data.key()) @ TrustLayerError::InvalidProgramData)]
+    pub program: Program<'info, TrustlayerVault>,
+    #[account(constraint = program_data.upgrade_authority_address == Some(upgrade_authority.key()) @ TrustLayerError::UnauthorizedInitializer)]
+    pub program_data: Account<'info, ProgramData>,
+    pub upgrade_authority: Signer<'info>,
     #[account(mut)]
     pub payer: Signer<'info>,
     pub system_program: Program<'info, System>,
@@ -308,7 +316,7 @@ pub struct InitializeProtocol<'info> {
 #[derive(Accounts)]
 #[instruction(args: InitializeProjectArgs)]
 pub struct InitializeProject<'info> {
-    #[account(seeds = [b"protocol"], bump = protocol_config.bump)]
+    #[account(seeds = [b"protocol"], bump = protocol_config.bump, has_one = admin)]
     pub protocol_config: Account<'info, ProtocolConfig>,
     #[account(
         init,
@@ -334,6 +342,7 @@ pub struct InitializeProject<'info> {
     /// CHECK: PDA receives SOL and signs payouts.
     pub vault: UncheckedAccount<'info>,
     pub project_authority: Signer<'info>,
+    pub admin: Signer<'info>,
     #[account(mut)]
     pub payer: Signer<'info>,
     pub system_program: Program<'info, System>,
@@ -685,6 +694,12 @@ pub enum TrustLayerError {
     ClaimWindowClosed,
     #[msg("Invalid Merkle proof")]
     InvalidMerkleProof,
+    #[msg("Payout round claims exceed the reserved round total")]
+    PayoutRoundOverClaimed,
+    #[msg("Only the program upgrade authority can initialize protocol roles")]
+    UnauthorizedInitializer,
+    #[msg("Invalid program data account")]
+    InvalidProgramData,
 }
 
 fn validate_fee_split(split: &FeeSplit) -> Result<()> {
@@ -733,6 +748,12 @@ fn checked_add_i64(left: i64, right: i64) -> Result<i64> {
     left.checked_add(right).ok_or(error!(TrustLayerError::ArithmeticOverflow))
 }
 
+fn checked_claim_total(claimed_amount: u64, amount: u64, total_amount: u64) -> Result<u64> {
+    let new_claimed_amount = checked_add(claimed_amount, amount)?;
+    require!(new_claimed_amount <= total_amount, TrustLayerError::PayoutRoundOverClaimed);
+    Ok(new_claimed_amount)
+}
+
 fn payout_leaf(wallet: Pubkey, amount: u64) -> [u8; 32] {
     hashv(&[b"trustlayer-payout", wallet.as_ref(), &amount.to_le_bytes()]).to_bytes()
 }
@@ -750,4 +771,15 @@ fn verify_merkle_proof(leaf: [u8; 32], proof: Vec<[u8; 32]>, root: [u8; 32]) -> 
 fn hash_pair(left: [u8; 32], right: [u8; 32]) -> [u8; 32] {
     let (first, second) = if left <= right { (left, right) } else { (right, left) };
     hashv(&[&first, &second]).to_bytes()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn checked_claim_total_rejects_over_claim() {
+        assert!(checked_claim_total(90, 10, 100).is_ok());
+        assert!(checked_claim_total(90, 11, 100).is_err());
+    }
 }

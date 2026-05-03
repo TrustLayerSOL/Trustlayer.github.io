@@ -4,6 +4,7 @@ import { toReceiptProofViewModel } from "./receipt-proof-view-model.js";
 import { fetchScannerPayload } from "./scanner-client.js";
 import { toScannerViewModel } from "./scanner-view-model.js";
 import { extractSolanaAddressInput } from "./solana-address-input.js";
+import { resolveScannerApiBase } from "./scanner-api-base.js";
 
 const tabButtons = document.querySelectorAll("[data-tab]");
 const panels = document.querySelectorAll("[data-panel]");
@@ -59,10 +60,12 @@ let activeScanController = null;
 let activeScanKey = null;
 
 const scannerApiBase =
-  window.TRUSTLAYER_SCANNER_API_URL ||
-  import.meta.env.VITE_TRUSTLAYER_SCANNER_API_URL ||
-  localStorage.getItem("trustlayerScannerApiUrl") ||
-  "http://127.0.0.1:8787";
+  resolveScannerApiBase({
+    windowOverride: window.TRUSTLAYER_SCANNER_API_URL,
+    envOverride: import.meta.env.VITE_TRUSTLAYER_SCANNER_API_URL,
+    storedOverride: localStorage.getItem("trustlayerScannerApiUrl"),
+    hostname: window.location.hostname,
+  });
 const isLocalScannerApi = scannerApiBase.includes("127.0.0.1") || scannerApiBase.includes("localhost");
 
 function escapeHtml(value) {

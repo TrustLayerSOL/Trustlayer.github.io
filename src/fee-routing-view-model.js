@@ -51,6 +51,9 @@ const STATUS_COPY = {
 
 export function toFeeRoutingViewModel(payload) {
   const result = payload?.result || payload || {};
+  const facts = result.facts || payload?.facts || {};
+  const evaluation = result.evaluation || payload?.evaluation || {};
+  const evidence = facts.evidence || result.evidence || {};
   const errorCode = payload?.error?.code;
   const status =
     errorCode === "missing_expected_recipient"
@@ -74,10 +77,14 @@ export function toFeeRoutingViewModel(payload) {
     network: result.network || payload?.network || "mainnet-beta",
     mint: result.mint || payload?.mint,
     integration: result.integration || payload?.integration || "pumpfun",
-    expectedRecipient: result.expectedRecipient,
-    routeAddress: result.routeAddress || result.evidence?.address,
-    allocationBps: result.actual?.allocationBps,
-    authorityStatus: result.actual?.authorityStatus,
-    checks: Array.isArray(result.checks) ? result.checks : [],
+    expectedRecipient: result.expectedRecipient || facts.expectedRecipient || facts.feeRecipient,
+    routeAddress: result.routeAddress || result.evidence?.address || evidence.account || evidence.address,
+    allocationBps: result.actual?.allocationBps ?? facts.allocationBps,
+    authorityStatus: result.actual?.authorityStatus || facts.configAuthorityStatus || facts.authorityStatus,
+    checks: Array.isArray(result.checks)
+      ? result.checks
+      : Array.isArray(evaluation.checks)
+        ? evaluation.checks
+        : [],
   };
 }
